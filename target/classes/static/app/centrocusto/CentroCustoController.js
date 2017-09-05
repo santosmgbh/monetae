@@ -1,71 +1,62 @@
 'use strict';
 
 app.controller('CentroCustoController',
-    ['CentroCustoService', '$scope','$location',   function( CentroCustoService, $scope, $location) {
+    ['CentroCustoService', '$scope','$location','$timeout',   function( CentroCustoService,  $scope, $location, $timeout) {
 
         var ng = $scope;
-        ng.centroCusto = {};
-        ng.centrosCustos=[];
+        ng.obj = {};
+        ng.lista=[];
+        ng.quantity = 25;
 
 
         ng.successMessage = '';
         ng.errorMessage = '';
-        ng.done = false;
-
-        ng.onlyIntegers = /^\d+$/;
-        ng.onlyNumbers = /^\d+([,.]\d+)?$/;
         
         ng.init = function(){
-        	console.log("init!")
         	ng.getAll();
         }
+        
+        ng.setEdicao = function(isEdicao){
+        	ng.isEdicao = isEdicao;
+        }
+                
 
         ng.submit = function submit() {
-            console.log('Submitting');
-            if (ng.centroCusto.id === undefined || ng.centroCusto.id === null) {
-                console.log('Saving New User', ng.centroCusto);
-                ng.create(ng.centroCusto);
+            if (ng.obj.id === undefined || ng.obj.id === null) {
+                ng.create(ng.obj);
             } else {
-            	ng.update(ng.centroCusto, ng.centroCusto.id);
-                console.log('User updated with id ', ng.centroCusto.id);
-            }
-            ng.getAll();
-            $location.path("centrocusto");
+            	ng.update(ng.obj, ng.obj.id);
+            }            
+            ng.setEdicao(false);
         }
+        
 
-        ng.create = function create(centroCusto) {
-            console.log('About to create centroCusto');
-            CentroCustoService.create(centroCusto)
+        ng.create = function create(obj) {
+            CentroCustoService.create(obj)
                 .then(
                     function (response) {
-                        console.log('User created successfully');
-                        ng.successMessage = 'User created successfully';
+                        ng.successMessage = 'created successfully';
                         ng.errorMessage='';
-                        ng.done = true;
-                        ng.centroCusto={};
+                        ng.obj={};
+                        ng.getAll();
 //                        $scope.myForm.$setPristine();   //reset form                     
                     },
                     function (errResponse) {
-                        console.error('Error while creating User');
                         ng.errorMessage = 'Error while creating User: ' + errResponse.data.errorMessage;
                         ng.successMessage='';
                     }
                 );
         }
 
-        ng.update = function update(centroCusto, id){
-            console.log('About to update centroCusto');
-            CentroCustoService.update(centroCusto, id)
+        ng.update = function update(obj, id){
+            CentroCustoService.update(obj, id)
                 .then(
                     function (response){
-                        console.log('User updated successfully');
-                        ng.successMessage='User updated successfully';
+                        ng.successMessage='updated successfully';
                         ng.errorMessage='';
-                        ng.done = true;
-                        $scope.myForm.$setPristine();
+                        ng.getAll();
                     },
                     function(errResponse){
-                        console.error('Error while updating User');
                         ng.errorMessage='Error while updating User '+errResponse.data;
                         ng.successMessage='';
                     }
@@ -74,34 +65,34 @@ app.controller('CentroCustoController',
 
 
         ng.remove = function remove(id){
-            console.log('About to remove User with id '+id);
             CentroCustoService.remove(id)
                 .then(
                     function(){
-                        console.log('User '+id + ' removed successfully');
+                        console.log(id + ' removed successfully');
                     },
                     function(errResponse){
-                        console.error('Error while removing centroCusto '+id +', Error :'+errResponse.data);
+                        console.error('Error while removing '+id +', Error :'+errResponse.data);
                     }
                 );
         }
 
 
         ng.getAll = function getAll(){
-        	ng.centrosCustos = CentroCustoService.getAll();
-        	console.log(ng.centrosCustos);
+        	$timeout(function(){
+        		ng.lista = CentroCustoService.getAll();
+        	}, 50);
+        	        	
         }
 
-        ng.edit = function edit(centroCusto) {        	
-        	ng.centroCusto = centroCusto;
-        	console.log(ng.centroCusto);
-        	$location.path("centrocusto/create");
+        ng.edit = function edit(obj) {        	
+        	ng.setEdicao(true);
+        	ng.obj = obj;        	        
         }
         
         ng.reset = function reset(){
             ng.successMessage='';
             ng.errorMessage='';
-            ng.centroCusto={};
+            ng.obj={};
             $scope.myForm.$setPristine(); //reset Form
         }        
         

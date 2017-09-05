@@ -1,46 +1,36 @@
 
 	<!-- Main content -->
-	<div class="main-content">
-		<h1 class="page-title">Basic Form Elements{{centroCusto.nome}}</h1>
+	<div >
+		<h1 class="page-title">Centro de custo: {{obj.nome}}</h1>
 		<!-- Breadcrumb -->
 		<ol class="breadcrumb breadcrumb-2"> 
-			<li><a href="index.html"><i class="fa fa-home"></i>Home</a></li> 
-			<li><a href="form-basic.html">Forms</a></li> 
-			<li class="active"><strong>Basic Form</strong></li> 
+			<li><a ui-sref="main"><i class="fa fa-home"></i>Home</a></li> 
+			<li><a ng-click="setEdicao(false);">Centro de custo</a></li> 
+			<li class="active"><strong>Cadastro</strong></li> 
 		</ol>
 		<div class="row">
 			<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading clearfix">
-						<h3 class="panel-title">Basic Form</h3>
-						<ul class="panel-tool-options"> 
-							<li><a data-rel="collapse" href="#"><i class="icon-down-open"></i></a></li>
-							<li><a data-rel="reload" href="#"><i class="icon-arrows-ccw"></i></a></li>
-							<li><a data-rel="close" href="#"><i class="icon-cancel"></i></a></li>
-						</ul>
+						<h3 class="panel-title">Centro de custo</h3>
 					</div>
 					<div class="panel-body">
 						 <form name="myForm" >
 							  <div class="form-group">
 								<label for="nome">Nome</label>
-								<input type="text" class="form-control" id="nome" placeholder="Nome" ng-model="centroCusto.nome">
+								<input type="text" class="form-control" id="nome" placeholder="Nome" ng-model="obj.nome">
 							  </div>							
 							  <div class="checkbox">
 								<label><input type="checkbox">Ativo</label>
 							  </div>
-							  <button type="submit" class="btn btn-primary"  ng-click="submit(centroCusto)">Salvar</button>
+							  <button type="submit" class="btn btn-primary"  ng-click="submit(obj);">Salvar</button>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>	
 		
-		<!-- Footer -->
-		<footer class="footer-main"> 
-			&copy; 2016 <strong>Mouldifi</strong> Admin Theme by <a target="_blank" href="#/">G-axon</a> 
-		</footer>	
-		<!-- /footer -->
 		
 	  </div>
 	  <!-- /main content -->

@@ -16,17 +16,14 @@ app.factory('CentroCustoService',
             return factory;
 
             function loadAll() {
-                console.log('Fetching all users');
                 var deferred = $q.defer();
                 $http.get(urls.CENTROCUSTO_SERVICE_API)
                     .then(
                         function (response) {
-                            console.log('Fetched successfully all users');
                             $localStorage.data = response.data;
                             deferred.resolve(response);
                         },
                         function (errResponse) {
-                            console.error('Error while loading users');
                             deferred.reject(errResponse);
                         }
                     );
@@ -38,50 +35,43 @@ app.factory('CentroCustoService',
             }
 
             function get(id) {
-                console.log('Fetching User with id :'+id);
                 var deferred = $q.defer();
                 $http.get(urls.CENTROCUSTO_SERVICE_API + id)
                     .then(
                         function (response) {
-                            console.log('Fetched successfully User with id :'+id);
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
-                            console.error('Error while loading user with id :'+id);
                             deferred.reject(errResponse);
                         }
                     );
                 return deferred.promise;
             }
 
-            function create(user) {
-                console.log('Creating User');
+            function create(obj) {                
                 var deferred = $q.defer();
-                $http.post(urls.CENTROCUSTO_SERVICE_API, user)
+                $http.post(urls.CENTROCUSTO_SERVICE_API, obj)
                     .then(
                         function (response) {                
                         	loadAll();
                             deferred.resolve(response.data);
                         },
-                        function (errResponse) {
-                           console.error('Error while creating User : '+errResponse.data.errorMessage);
+                        function (errResponse) {                           
                            deferred.reject(errResponse);
                         }
                     );
                 return deferred.promise;
             }
 
-            function update(user, id) {
-                console.log('Updating User with id '+id);
+            function update(obj, id) {
                 var deferred = $q.defer();
-                $http.put(urls.CENTROCUSTO_SERVICE_API + id, user)
+                $http.put(urls.CENTROCUSTO_SERVICE_API + id, obj)
                     .then(
                         function (response) {
                         	loadAll();
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
-                            console.error('Error while updating User with id :'+id);
                             deferred.reject(errResponse);
                         }
                     );
@@ -89,7 +79,6 @@ app.factory('CentroCustoService',
             }
 
             function remove(id) {
-                console.log('Removing User with id '+id);
                 var deferred = $q.defer();
                 $http.delete(urls.CENTROCUSTO_SERVICE_API + id)
                     .then(
@@ -98,7 +87,6 @@ app.factory('CentroCustoService',
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
-                            console.error('Error while removing User with id :'+id);
                             deferred.reject(errResponse);
                         }
                     );
