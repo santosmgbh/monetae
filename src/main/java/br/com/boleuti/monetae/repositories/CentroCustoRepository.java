@@ -23,6 +23,7 @@ public interface CentroCustoRepository  extends JpaRepository<CentroCusto, Long>
      * @return lista de centro de custos
      */
     List<CentroCusto> findAll();
+       
     
        
 }

@@ -10,6 +10,7 @@ app.factory('UsuarioService',
                 get: get,
                 create: create,
                 update: update,
+                logout: logout,
                 remove: remove
             };
 
@@ -91,6 +92,10 @@ app.factory('UsuarioService',
                         }
                     );
                 return deferred.promise;
+            }
+            
+            function logout() {                                
+                $http.post("login?logout");                   
             }
 
         }

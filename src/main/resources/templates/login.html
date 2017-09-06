@@ -1,11 +1,15 @@
 ﻿<!DOCTYPE html>
-<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Mouldifi - A fully responsive, HTML5 based admin theme">
-<meta name="keywords" content="Responsive, HTML5, admin theme, business, professional, Mouldifi, web design, CSS3">
+<meta name="description"
+	content="Mouldifi - A fully responsive, HTML5 based admin theme">
+<meta name="keywords"
+	content="Responsive, HTML5, admin theme, business, professional, Mouldifi, web design, CSS3">
 <title>Mouldifi | Login</title>
 <!-- Site favicon -->
 <link rel='shortcut icon' type='image/x-icon' href='images/favicon.ico' />
@@ -39,34 +43,41 @@
 
 </head>
 <body class="login-page">
-<div class="login-container">
-	<div class="login-branding">
-		<a href="index.html"><img src="images/logo.png" alt="Mouldifi" title="Mouldifi"></a>
+	<div class="login-container">
+		<div class="login-branding">
+			<a href="index.html"><img src="images/logo.png" alt="Mouldifi"
+				title="Mouldifi"></a>
+		</div>
+		<div class="login-content">
+			<h2>
+				<strong>Welcome</strong>, please login
+			</h2>			
+			<form th:action="@{/login}" method="post">
+				<div class="form-group">
+					<input type="text" placeholder="Username" name="username"
+						class="form-control">
+				</div>
+				<div class="form-group">
+					<input type="password" placeholder="Password" name="password"
+						class="form-control">
+				</div>
+				<div class="form-group">
+					<div class="checkbox checkbox-replace">
+						<input type="checkbox" id="remeber"> <label for="remeber">Remeber
+							me</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<input class="btn btn-primary btn-block" type="submit" />
+				</div>
+				<p class="text-center">
+					<a href="forgot-password.html">Forgot your password?</a>
+				</p>
+			</form>
+		</div>
 	</div>
-	<div class="login-content">
-		<h2><strong>Welcome</strong>, please login</h2>
-		<form th:action="@{/home}" method="post">                        
-			<div class="form-group">
-				<input type="text" placeholder="Username" name="username" class="form-control">
-			</div>                        
-			<div class="form-group">
-				<input type="password" placeholder="Password" name="password" class="form-control">
-			</div>
-			<div class="form-group">
-				 <div class="checkbox checkbox-replace">
-					<input type="checkbox" id="remeber">
-					<label for="remeber">Remeber me</label>
-				  </div>
-			 </div>
-			<div class="form-group">
-			 	<input class="btn btn-primary btn-block" type="submit" value="Login"/>				
-			</div>
-			<p class="text-center"><a href="forgot-password.html">Forgot your password?</a></p>                        
-		</form>
-	</div>
-</div>
-<!--Load JQuery-->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+	<!--Load JQuery-->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

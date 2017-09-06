@@ -43,8 +43,7 @@
 <body>
 
 <!-- Page container -->
-<div class="page-container">
-
+<div ng-controller="InitController" class="page-container">
 	<!-- Page Sidebar -->
 	<div class="page-sidebar">					
 		<!-- Site header  -->
@@ -94,6 +93,7 @@
 		<div class="main-header row">
 		  <div class="col-sm-6 col-xs-7">
 		  
+	  
 			<!-- User info -->
 			<ul class="user-info pull-left">          
 			  <li class="profile-info dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <img width="44" class="img-circle avatar" alt="" src="images/man-3.jpg">John Henderson <span class="caret"></span></a>
@@ -106,7 +106,9 @@
 				  <li><a href="#"><i class="icon-clipboard"></i>Tasks</a></li>
 				  <li class="divider"></li>
 				  <li><a href="#"><i class="icon-cog"></i>Account settings</a></li>
-				  <li><a href="#"><i class="icon-logout"></i>Logout</a></li>
+				  
+				  
+				  <li><a ng-click="logout()"><i class="icon-logout"></i>Logout</a></li>
 				</ul>
 				<!-- /user action menu -->
 				
@@ -219,6 +221,8 @@
 		
 		<!-- Main content -->
 		<div class="main-content">
+			 <div class="alert alert-success" role="alert" id="main_topo_alert"></div>
+			 <div ng-include="'app/modal/progress.html'"></div>			 			
 			 <div ui-view="">
 			 </div>
 	  	</div>

@@ -17,6 +17,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.boleuti.monetae.model.CentroCusto;
 import br.com.boleuti.monetae.repositories.CentroCustoRepository;
+import br.com.boleuti.monetae.service.CentroCustoService;
+import br.com.boleuti.monetae.service.UserService;
 import br.com.boleuti.monetae.util.CustomErrorType;
 
 
@@ -26,17 +28,13 @@ import br.com.boleuti.monetae.util.CustomErrorType;
 @RequestMapping("/centroCusto")
 public class CentroCustoController {
 	
-	   private CentroCustoRepository centroCustoRepository;
-	   
-
 		@Autowired
-		public CentroCustoController(CentroCustoRepository centroCustoRepository) {
-			this.centroCustoRepository = centroCustoRepository;
-		}
+		CentroCustoService centroCustoService;
+	   
 
 		@RequestMapping(method = RequestMethod.GET)
 		public ResponseEntity<List<CentroCusto>> listAll() {
-			List<CentroCusto> list = centroCustoRepository.findAll();
+			List<CentroCusto> list = centroCustoService.findAll();
 			if (list == null || list.isEmpty()) {
 				return new ResponseEntity(HttpStatus.NO_CONTENT);
 				// You many decide to return HttpStatus.NOT_FOUND
@@ -46,7 +44,7 @@ public class CentroCustoController {
 		
 		@RequestMapping(value = "{nome}", method = RequestMethod.GET)
 		public ResponseEntity<?> findByNome(@PathVariable("nome") String nome) {
-			CentroCusto obj = centroCustoRepository.findByNome(nome);
+			CentroCusto obj = centroCustoService.findByNome(nome);
 			if (obj == null) {
 				return new ResponseEntity(new CustomErrorType("N�o encontrado com o nome "+nome), HttpStatus.NOT_FOUND);
 			}
@@ -57,7 +55,7 @@ public class CentroCustoController {
 
 		@RequestMapping(value = "{id}", method = RequestMethod.GET)
 		public ResponseEntity<?> get(@PathVariable("id") long id) {
-			CentroCusto obj = centroCustoRepository.findOne(id);
+			CentroCusto obj = centroCustoService.findOne(id);
 			if (obj == null) {
 				return new ResponseEntity(new CustomErrorType("User with id " + id + " not found"), HttpStatus.NOT_FOUND);
 			}
@@ -67,12 +65,12 @@ public class CentroCustoController {
 		@RequestMapping(method = RequestMethod.POST)
 		public ResponseEntity<?> create(@RequestBody CentroCusto obj, UriComponentsBuilder ucBuilder) {
 
-			if (obj.getId() != null && centroCustoRepository.exists(obj.getId())) {
+			if (obj.getId() != null && centroCustoService.exists(obj.getId())) {
 				return new ResponseEntity(
 						new CustomErrorType("Unable to create. A User with name " + obj.getNome() + " already exist."),
 						HttpStatus.CONFLICT);
 			}
-			centroCustoRepository.save(obj);
+			centroCustoService.save(obj);
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setLocation(ucBuilder.path("centroCusto/{id}").buildAndExpand(obj.getId()).toUri());
@@ -82,7 +80,7 @@ public class CentroCustoController {
 		@RequestMapping(value = "{id}", method = RequestMethod.PUT)
 		public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody CentroCusto user) {
 
-			CentroCusto obj = centroCustoRepository.findOne(id);
+			CentroCusto obj = centroCustoService.findOne(id);
 
 			if (obj == null) {
 				return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
@@ -91,7 +89,7 @@ public class CentroCustoController {
 
 			obj.setNome(user.getNome());							
 
-			centroCustoRepository.save(obj);
+			centroCustoService.save(obj);
 			return new ResponseEntity<CentroCusto>(obj, HttpStatus.OK);
 		}
 
@@ -101,12 +99,12 @@ public class CentroCustoController {
 		@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 		public ResponseEntity<?> delete(@PathVariable("id") long id) {
 
-			CentroCusto obj = centroCustoRepository.findOne(id);
+			CentroCusto obj = centroCustoService.findOne(id);
 			if (obj == null) {
 				return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
 						HttpStatus.NOT_FOUND);
 			}
-			centroCustoRepository.delete(id);
+			centroCustoService.delete(id);
 			return new ResponseEntity<CentroCusto>(HttpStatus.NO_CONTENT);
 		}
 
@@ -115,7 +113,7 @@ public class CentroCustoController {
 		@RequestMapping(method = RequestMethod.DELETE)
 		public ResponseEntity<CentroCusto> deleteAll() {
 
-			centroCustoRepository.deleteAll();
+			centroCustoService.deleteAll();
 			return new ResponseEntity<CentroCusto>(HttpStatus.NO_CONTENT);
 		}
 

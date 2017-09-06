@@ -4,7 +4,7 @@
 		<div ng-include="'app/centrocusto/centrocusto-cadastro.html'"></div>
 	</div>
 
-	<div ng-show="!isEdicao">
+	<div ng-show="!isEdicao">		
 		<!-- Secondary header -->
 		<div class="header-secondary row gray-bg">
 			<div class="col-lg-12">
@@ -57,12 +57,14 @@
 					<thead>
 						<tr>
 							<th>Nome</th>
-							<th class="text-left">active</th>
+							<th>Data Cadastro</th>
+							<th class="text-left">Ativo</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="c in lista | filter:searchText | orderBy:'nome' | limitTo:quantity"  ng-click="edit(c)">
+						<tr ng-repeat="c in lista | filter:searchText | orderBy:'dataCadastro':true | limitTo:quantity"  ng-click="edit(c)">
 							<td><strong>{{c.nome}}</strong></td>
+							<td ng-bind="c.dataCadastro | date:'MM/dd/yyyy HH:mm:ss'"></td>
 							<td><i class="icon-check icon-larger green-color"></i></td>
 						</tr>
 					</tbody>
