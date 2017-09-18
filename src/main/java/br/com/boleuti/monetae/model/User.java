@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name="USER")
@@ -29,6 +30,12 @@ public class User implements Serializable{
 	@NotEmpty
 	@Column(name="SENHA", nullable=false)
 	private String senha;
+	
+	@Column(name = "active")
+	private int active;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
 
 	public Long getId() {
 		return id;
@@ -61,6 +68,24 @@ public class User implements Serializable{
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
+	public int getActive() {
+		return active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
+	
 
 
 	

@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +18,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.boleuti.monetae.model.Fluxo;
 import br.com.boleuti.monetae.repositories.FluxoRepository;
+import br.com.boleuti.monetae.repositories.UserRepository;
+import br.com.boleuti.monetae.service.UserService;
 import br.com.boleuti.monetae.util.CustomErrorType;
 
 @Controller
@@ -22,6 +27,8 @@ import br.com.boleuti.monetae.util.CustomErrorType;
 public class FluxoController {
 
 	private FluxoRepository fluxoRepository;
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	public FluxoController(FluxoRepository fluxoRepository) {
@@ -50,11 +57,12 @@ public class FluxoController {
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> create(@RequestBody Fluxo fluxo, UriComponentsBuilder ucBuilder) {
 
-		if (fluxoRepository.exists(fluxo.getId())) {
+		if (fluxo.getId() != null && fluxoRepository.exists(fluxo.getId())) {
 			return new ResponseEntity(
 					new CustomErrorType("Unable to create. A User with name " + fluxo.getNome() + " already exist."),
 					HttpStatus.CONFLICT);
 		}
+		fluxo.setUser(userService.getUsuarioLogado());
 		fluxoRepository.save(fluxo);
 
 		HttpHeaders headers = new HttpHeaders();
@@ -71,7 +79,7 @@ public class FluxoController {
 			return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
-
+		obj.setUser(userService.getUsuarioLogado());
 		obj.setNome(user.getNome());
 		obj.setTipoFluxo(user.getTipoFluxo());
 

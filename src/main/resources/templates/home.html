@@ -77,20 +77,9 @@
 									Portal</span></a></li>
 					</ul></li>
 				<li class="has-sub"><a href="graph-flot.html"><i
-						class="icon-chart-bar"></i><span class="title">Graphs</span></a>
+						class="icon-chart-bar"></i><span class="title">Estatisticas</span></a>
 					<ul class="nav collapse">
-						<li><a href="graph-flot.html"><span class="title">Flot
-									Charts</span></a></li>
-						<li><a href="graph-morris.html"><span class="title">Morris
-									Charts</span></a></li>
-						<li><a href="graph-peity.html"><span class="title">Peity
-									Charts</span></a></li>
-						<li><a href="graph-sparkline.html"><span class="title">Sparkline
-									Charts</span></a></li>
-						<li><a href="graph-chartjs.html"><span class="title">ChartsJs</span></a></li>
-						<li><a href="graph-chartist.html"><span class="title">Chartist</span></a></li>
-						<li><a href="graph-c3.html"><span class="title">C3
-									Charts</span></a></li>
+						<li><a ui-sref="estatistica"><span class="title">Previsões</span></a></li>
 					</ul></li>
 
 				<li class="has-sub"><a href="simple-view.html"><i
@@ -100,6 +89,8 @@
 									de custos</span></a></li>
 						<li><a ui-sref="fluxo"><span class="title">Fluxos</span></a></li>
 					</ul></li>
+					<li><a ui-sref="lancamento"><span class="title">Lançamentos</span></a></li>
+					</ul></li>
 			</ul>
 			<!-- /main navigation -->
 		</div>
@@ -107,7 +98,7 @@
 
 		<!-- Main container -->
 		<div class="main-container gray-bg">
-			<div class="alert alert-success" style="position:absolute;width: 100%; z-index: 1" role="alert" id="main_topo_alert"></div>
+			<div class="alert alert-success" style="position:absolute;width: 100%; z-index: 1" role="alert" id="main_topo_alert" ng-show="false"></div>
 			<!-- Main header -->
 			<div class="main-header row">
 				<div class="col-sm-6 col-xs-7">
@@ -324,6 +315,12 @@
 	<script src="app/security/UsuarioController.js"></script>
 	<script src="app/centrocusto/CentroCustoController.js"></script>
 	<script src="app/centrocusto/CentroCustoService.js"></script>
+	<script src="app/fluxo/FluxoController.js"></script>
+	<script src="app/fluxo/FluxoService.js"></script>
+	<script src="app/lancamento/LancamentoController.js"></script>
+	<script src="app/lancamento/LancamentoService.js"></script>
+	<script src="app/estatisticas/EstatisticaController.js"></script>
+	<script src="app/estatisticas/EstatisticaService.js"></script>
 
 	<!--ChartJs-->
 	<script src="js/plugins/chartjs/Chart.min.js"></script>

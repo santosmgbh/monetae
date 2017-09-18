@@ -23,7 +23,7 @@ public class CentroCusto {
 	private String nome;
 	
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="ID_USER")
+    @JoinColumn(name="ID_USER", nullable=false)
     private User user;
     
     @Column(name="DATA_CADASTRO")

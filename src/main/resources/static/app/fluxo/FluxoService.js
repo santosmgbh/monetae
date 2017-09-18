@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('CentroCustoService',
+app.factory('FluxoService',
     ['$sessionStorage', '$http', '$q', 'urls',
         function ($sessionStorage, $http, $q, urls) {
 
@@ -17,10 +17,10 @@ app.factory('CentroCustoService',
 
             function loadAll() {
                 var deferred = $q.defer();
-                $http.get(urls.CENTROCUSTO_SERVICE_API)
+                $http.get(urls.FLUXO_SERVICE_API)
                     .then(
                         function (response) {
-                            $sessionStorage.centrosCustos = response.data;
+                            $sessionStorage.fluxos = response.data;
                             deferred.resolve(response);
                         },
                         function (errResponse) {
@@ -31,12 +31,12 @@ app.factory('CentroCustoService',
             }
 
             function getAll(){
-                return $sessionStorage.centrosCustos;
+                return $sessionStorage.fluxos;
             }
 
             function get(id) {
                 var deferred = $q.defer();
-                $http.get(urls.CENTROCUSTO_SERVICE_API + id)
+                $http.get(urls.FLUXO_SERVICE_API + id)
                     .then(
                         function (response) {
                             deferred.resolve(response.data);
@@ -50,7 +50,7 @@ app.factory('CentroCustoService',
 
             function create(obj) {                
                 var deferred = $q.defer();
-                $http.post(urls.CENTROCUSTO_SERVICE_API, obj)
+                $http.post(urls.FLUXO_SERVICE_API, obj)
                     .then(
                         function (response) {                
                         	loadAll();
@@ -65,7 +65,7 @@ app.factory('CentroCustoService',
 
             function update(obj, id) {
                 var deferred = $q.defer();
-                $http.put(urls.CENTROCUSTO_SERVICE_API + id, obj)
+                $http.put(urls.FLUXO_SERVICE_API + id, obj)
                     .then(
                         function (response) {
                         	loadAll();
@@ -80,7 +80,7 @@ app.factory('CentroCustoService',
 
             function remove(id) {
                 var deferred = $q.defer();
-                $http.delete(urls.CENTROCUSTO_SERVICE_API + id)
+                $http.delete(urls.FLUXO_SERVICE_API + id)
                     .then(
                         function (response) {
                         	loadAll();

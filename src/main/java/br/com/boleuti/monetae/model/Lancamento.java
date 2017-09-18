@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Lancamento {
@@ -27,6 +29,9 @@ public class Lancamento {
       @Column(name="VALOR", nullable=false)
       private Double valor;
       
+      @Column(name="PARCELAS", nullable=false)
+      private Integer parcelas;
+      
       @ManyToOne(cascade = CascadeType.ALL)
       @JoinColumn(name="ID_CENTRO_CUSTO")
       private CentroCusto centroCusto;
@@ -34,6 +39,14 @@ public class Lancamento {
       @ManyToOne(cascade = CascadeType.ALL)
       @JoinColumn(name="ID_FLUXO")
       private Fluxo fluxo;
+      
+      @ManyToOne(cascade = CascadeType.ALL)
+      @JoinColumn(name="ID_USER", nullable=false)
+      private User user;
+      
+      @Column(name="DATA_CADASTRO")
+      @Temporal(TemporalType.TIMESTAMP)
+      private Date dataCadastro = new Date();
  
 
 	public Long getId() {
@@ -83,6 +96,32 @@ public class Lancamento {
 	public void setFluxo(Fluxo fluxo) {
 		this.fluxo = fluxo;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+	public Integer getParcelas() {
+		return parcelas;
+	}
+
+	public void setParcelas(Integer parcelas) {
+		this.parcelas = parcelas;
+	}
+	
+	
 
 	
 

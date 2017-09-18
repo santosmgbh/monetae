@@ -1,5 +1,7 @@
 package br.com.boleuti.monetae.controller;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,14 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.boleuti.monetae.model.Role;
 import br.com.boleuti.monetae.model.User;
+import br.com.boleuti.monetae.repositories.RoleRepository;
 import br.com.boleuti.monetae.service.UserService;
 import br.com.boleuti.monetae.util.CustomErrorType;
 
@@ -27,6 +34,11 @@ public class RestApiController {
 
 	@Autowired
 	UserService userService; //Service which will do all data retrieval/manipulation work
+	@Autowired
+    private RoleRepository roleRepository;
+	
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	// -------------------Retrieve All Users---------------------------------------------
 
@@ -53,11 +65,12 @@ public class RestApiController {
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
+	
 
 	// -------------------Create a User-------------------------------------------
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> create(@RequestBody User user, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<?> create(User user, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating User : {}", user);
 
 		if (userService.isUserExist(user)) {
@@ -65,6 +78,10 @@ public class RestApiController {
 			return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " + 
 			user.getNome() + " already exist."),HttpStatus.CONFLICT);
 		}
+		user.setSenha(bCryptPasswordEncoder.encode(user.getSenha()));
+        user.setActive(1);
+        Role userRole = roleRepository.findByRole("ADMIN");
+        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));		
 		userService.saveUser(user);
 
 		HttpHeaders headers = new HttpHeaders();
@@ -118,5 +135,6 @@ public class RestApiController {
 		userService.deleteAllUsers();
 		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
+		
 
 }

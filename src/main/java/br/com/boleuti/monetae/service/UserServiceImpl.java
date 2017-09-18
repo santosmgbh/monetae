@@ -3,6 +3,8 @@ package br.com.boleuti.monetae.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +50,14 @@ public class UserServiceImpl implements UserService{
 
 	public boolean isUserExist(User user) {
 		return findByNome(user.getNome()) != null;
+	}
+
+	@Override
+	public User getUsuarioLogado() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		org.springframework.security.core.userdetails.User userLogged = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+		User user = userRepository.findByLogin(userLogged.getUsername());		
+		return user;
 	}
 
 }

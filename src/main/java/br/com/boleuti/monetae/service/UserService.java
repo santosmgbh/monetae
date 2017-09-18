@@ -7,6 +7,8 @@ import br.com.boleuti.monetae.model.User;
 
 public interface UserService {
 	
+	User getUsuarioLogado();
+	
 	User findById(Long id);
 
 	User findByNome(String name);

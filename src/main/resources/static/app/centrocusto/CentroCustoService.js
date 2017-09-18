@@ -1,8 +1,8 @@
 'use strict';
 
 app.factory('CentroCustoService',
-    ['$localStorage', '$http', '$q', 'urls',
-        function ($localStorage, $http, $q, urls) {
+    ['$sessionStorage', '$http', '$q', 'urls',
+        function ($sessionStorage, $http, $q, urls) {
 
             var factory = {
                 loadAll: loadAll,
@@ -20,7 +20,7 @@ app.factory('CentroCustoService',
                 $http.get(urls.CENTROCUSTO_SERVICE_API)
                     .then(
                         function (response) {
-                            $localStorage.data = response.data;
+                            $sessionStorage.centrosCustos = response.data;
                             deferred.resolve(response);
                         },
                         function (errResponse) {
@@ -31,7 +31,7 @@ app.factory('CentroCustoService',
             }
 
             function getAll(){
-                return $localStorage.data;
+                return $sessionStorage.centrosCustos;
             }
 
             function get(id) {

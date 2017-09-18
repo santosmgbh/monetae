@@ -21,6 +21,25 @@ app
 								controller : 'CentroCustoController',		
 								templateUrl : 'app/centrocusto/centrocusto-view.html',
 							},
+							
+							{					
+								name : 'fluxo',								
+								url : '/fluxo',			
+								controller : 'FluxoController',		
+								templateUrl : 'app/fluxo/fluxo-view.html',
+							},
+							{					
+								name : 'lancamento',								
+								url : '/lancamento',			
+								controller : 'LancamentoController',		
+								templateUrl : 'app/lancamento/lancamento-view.html',
+							},
+							{					
+								name : 'estatistica',								
+								url : '/estatistica',			
+								controller : 'EstatisticaController',		
+								templateUrl : 'app/estatisticas/estatistica-view.html',
+							},
 
 							{
 								name : 'erro',

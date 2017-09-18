@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" 	xmlns:th="http://www.thymeleaf.org" >
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,21 +43,24 @@
 		<a href="index.html"><img src="images/logo.png" alt="Mouldifi" title="Mouldifi"></a>
 	</div>
 	<div class="login-content">
-		<h2>Create an account2</h2>
-		<form method="post" action="index.html">                        
-			<div class="form-group">
-				<input type="text" placeholder="Name" class="form-control">
+		<h2>Crie sua conta</h2>
+		<form method="post" action="user"  >      			       
+			<div class="form-group">			
+				<input type="text" placeholder="Nome" name="nome" class="form-control">
 			</div>   
 			<div class="form-group">
-				<input type="text" placeholder="Email" class="form-control">
+				<input type="text" placeholder="Email" name="login" class="form-control">
 			</div>                     
 			<div class="form-group">
-				<input type="password" placeholder="Password" class="form-control">
+				<input type="password" placeholder="Senha" name="senha" class="form-control">
+			</div>
+			<div class="form-group">
+				<input type="password" placeholder="Confirme a senha" class="form-control">
 			</div>
 			<div class="form-group form-action">
-				<button class="btn btn-primary btn-block">Regsiter</button>
+				<button class="btn btn-primary btn-block">Registrar</button>
 			</div>
-			<p class="text-center">Have an account <a href="login.html">Sign in</a></p>                        
+			<p class="text-center">Já possui uma conta <a href="login.html">Login</a></p>                        
 		</form>
 	</div>
 </div>

@@ -5,7 +5,8 @@ server:
   contextPath: /monetae
 ---
 spring:
-  profiles: local, default
+  profiles: local, default  
+  
   
 datasource:
   sampleapp:
