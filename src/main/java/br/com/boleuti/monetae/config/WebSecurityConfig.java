@@ -1,18 +1,24 @@
 package br.com.boleuti.monetae.config;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-import br.com.boleuti.monetae.model.Role;
-import br.com.boleuti.monetae.repositories.RoleRepository;
+import br.com.boleuti.monetae.model.Permissao;
+import br.com.boleuti.monetae.repositories.PermissaoRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -26,12 +32,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private DataSource dataSource;
 
 	@Autowired
-    private RoleRepository roleRepository;
+    private PermissaoRepository roleRepository;
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	Role roleAdmin = new Role();
-    	roleAdmin.setRole("ADMIN");
+    	Permissao roleAdmin = new Permissao();
+    	roleAdmin.setNome("ADMIN");
     	roleRepository.save(roleAdmin);
         http
             .authorizeRequests()
@@ -39,7 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
-                .loginPage("/login")                
+                .loginPage("/login")         
+                .failureUrl("/loginError")                
                 .permitAll()
                 .and()                
             .logout()
@@ -53,14 +60,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     	auth.
 		jdbcAuthentication()
-			.usersByUsernameQuery("select login,senha, active enabled from User where login=?")		
-			.authoritiesByUsernameQuery("select u.login, r.role from user u inner join user_role ur on(u.id=ur.user_id) inner join role r on(ur.role_id=r.role_id) where u.login=?")
+			.usersByUsernameQuery("SELECT LOGIN,SENHA, ACTIVE as ENABLED FROM USER WHERE LOGIN=?")		
+			.authoritiesByUsernameQuery("SELECT U.LOGIN, P.NOME FROM USER U INNER JOIN USER_PERMISSAO UP ON(U.ID=UP.USER_ID) INNER JOIN PERMISSAO P ON(UP.PERMISSAO_ID=P.ID) WHERE U.LOGIN=?")
 			.dataSource(dataSource)
 			.passwordEncoder(bCryptPasswordEncoder);
     	
-//      auth
-//      .inMemoryAuthentication()
-//          .withUser("user").password("password").roles("USER");
 
     }
 }

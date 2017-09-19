@@ -12,17 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.boleuti.monetae.model.Role;
+import br.com.boleuti.monetae.model.Permissao;
 import br.com.boleuti.monetae.model.User;
-import br.com.boleuti.monetae.repositories.RoleRepository;
+import br.com.boleuti.monetae.repositories.PermissaoRepository;
 import br.com.boleuti.monetae.service.UserService;
 import br.com.boleuti.monetae.util.CustomErrorType;
 
@@ -35,7 +33,7 @@ public class RestApiController {
 	@Autowired
 	UserService userService; //Service which will do all data retrieval/manipulation work
 	@Autowired
-    private RoleRepository roleRepository;
+    private PermissaoRepository roleRepository;
 	
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -80,8 +78,8 @@ public class RestApiController {
 		}
 		user.setSenha(bCryptPasswordEncoder.encode(user.getSenha()));
         user.setActive(1);
-        Role userRole = roleRepository.findByRole("ADMIN");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));		
+        Permissao userRole = roleRepository.findByNome("ADMIN");
+        user.setPesmissoes(new HashSet<Permissao>(Arrays.asList(userRole)));		
 		userService.saveUser(user);
 
 		HttpHeaders headers = new HttpHeaders();

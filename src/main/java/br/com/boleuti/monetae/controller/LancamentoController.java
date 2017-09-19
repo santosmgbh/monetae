@@ -2,8 +2,6 @@ package br.com.boleuti.monetae.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,9 +17,7 @@ import br.com.boleuti.monetae.model.CentroCusto;
 import br.com.boleuti.monetae.model.Fluxo;
 import br.com.boleuti.monetae.model.Lancamento;
 import br.com.boleuti.monetae.repositories.FluxoRepository;
-import br.com.boleuti.monetae.repositories.LancamentoRepository;
 import br.com.boleuti.monetae.service.CentroCustoService;
-import br.com.boleuti.monetae.service.LancamentoService;
 import br.com.boleuti.monetae.service.LancamentoService;
 import br.com.boleuti.monetae.service.UserService;
 import br.com.boleuti.monetae.util.CustomErrorType;

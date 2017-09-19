@@ -8,14 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "PERMISSAO")
+public class Permissao {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="role_id")
+	@Column(name="ID")
 	private int id;
-	@Column(name="role")
-	private String role;
+	@Column(name="NOME")
+	private String nome;
 	
 	public int getId() {
 		return id;
@@ -23,12 +23,14 @@ public class Role {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getRole() {
-		return role;
+	public String getNome() {
+		return nome;
 	}
-	public void setRole(String role) {
-		this.role = role;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
+
+
 	
 	
 }

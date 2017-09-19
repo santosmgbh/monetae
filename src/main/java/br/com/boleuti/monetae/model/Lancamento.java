@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +23,11 @@ public class Lancamento {
       private Long id; 
       
       @Column(name="DESCRICAO", nullable=false)
-       private String descricao;
+      private String descricao;
+      
+      @Column(name = "TIPO_LANCAMENTO")
+      @Enumerated(EnumType.ORDINAL)
+      private TipoLancamento tipoLancamento;
       
       @Column(name="DATA", nullable=true)
       private Date data;
@@ -119,6 +125,14 @@ public class Lancamento {
 
 	public void setParcelas(Integer parcelas) {
 		this.parcelas = parcelas;
+	}
+
+	public TipoLancamento getTipoLancamento() {
+		return tipoLancamento;
+	}
+
+	public void setTipoLancamento(TipoLancamento tipoLancamento) {
+		this.tipoLancamento = tipoLancamento;
 	}
 	
 	

@@ -34,8 +34,8 @@ public class User implements Serializable{
 	@Column(name = "active")
 	private int active;
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+	@JoinTable(name = "USER_PERMISSAO", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "PERMISSAO_ID"))
+	private Set<Permissao> pesmissoes;
 
 	public Long getId() {
 		return id;
@@ -77,13 +77,15 @@ public class User implements Serializable{
 		this.active = active;
 	}
 
-	public Set<Role> getRoles() {
-		return roles;
+	public Set<Permissao> getPesmissoes() {
+		return pesmissoes;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setPesmissoes(Set<Permissao> pesmissoes) {
+		this.pesmissoes = pesmissoes;
 	}
+
+
 	
 	
 

@@ -6,9 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.boleuti.monetae.model.Fluxo;
 import br.com.boleuti.monetae.repositories.FluxoRepository;
-import br.com.boleuti.monetae.repositories.UserRepository;
 import br.com.boleuti.monetae.service.UserService;
 import br.com.boleuti.monetae.util.CustomErrorType;
 
@@ -81,7 +77,6 @@ public class FluxoController {
 		}
 		obj.setUser(userService.getUsuarioLogado());
 		obj.setNome(user.getNome());
-		obj.setTipoFluxo(user.getTipoFluxo());
 
 		fluxoRepository.save(obj);
 		return new ResponseEntity<Fluxo>(obj, HttpStatus.OK);

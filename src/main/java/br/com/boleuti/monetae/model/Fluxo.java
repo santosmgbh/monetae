@@ -15,6 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * O Fluxo é uma forma de centralizar as movimentações. 
+ * De forma prática seria por exemplo uma Conta, Cartão de crédito, Conta poupança, cheque, etc.
+ * @author almir.santos
+ *
+ */
 @Entity
 public class Fluxo {
 	
@@ -24,10 +30,6 @@ public class Fluxo {
       
       @Column(name="NOME", nullable=false)
       private String nome; 
-      
-      @Column(name = "TIPO")
-      @Enumerated(EnumType.ORDINAL)
-      private TipoFluxo tipoFluxo;
       
       @ManyToOne(cascade = CascadeType.ALL)
       @JoinColumn(name="ID_USER", nullable=false)
@@ -51,14 +53,6 @@ public class Fluxo {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public TipoFluxo getTipoFluxo() {
-		return tipoFluxo;
-	}
-
-	public void setTipoFluxo(TipoFluxo tipoFluxo) {
-		this.tipoFluxo = tipoFluxo;
 	}
 
 	public User getUser() {
