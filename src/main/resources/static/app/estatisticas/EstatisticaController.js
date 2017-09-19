@@ -8,61 +8,50 @@ app.controller('EstatisticaController',
         
         ng.init = function(){   
         	console.log("start");
-        	ng.startChart();
+        	ng.startLineChart();
         }
         
-        ng.startChart = function(){        	
-        	  
+        ng.startLineChart = function(){        
+        	ng.addSerie(document.getElementById('myChart').getContext('2d'));
         }
         
-        ng.addSerie = function(component, serie){
-        	var barOptions = {
-      		        series: {
-      		            lines: {
-      		                show: true,
-      		                lineWidth: 2,
-      		                fill: true,
-      		                fillColor: {
-      		                    colors: [{
-      		                            opacity: 0.0
-      		                        }, {
-      		                            opacity: 0.0
-      		                        }]
-      		                }
-      		            }
-      		        },
-      		        xaxis: {
-      		            tickDecimals: 0
-      		        },
-      		        colors: ["#00b8ce"],
-      		        grid: {
-      		            color: "#999999",
-      		            hoverable: true,
-      		            clickable: true,
-      		            tickColor: "#D4D4D4",
-      		            borderWidth: 0
-      		        },
-      		        legend: {
-      		            show: false
-      		        },
-      		        tooltip: true,
-      		        tooltipOpts: {
-      		            content: "x: %x, y: %y"
-      		        }
-      		    };
-      		    var barData = {
-      		        label: "bar",
-      		        data: [
-      		            [1, 34],
-      		            [2, 25],
-      		            [3, 19],
-      		            [4, 34],
-      		            [5, 32],
-      		            [6, 44],
-      		            [7, 50]
-      		        ]
-      		    };
-      		    $.plot($("#flot-line-chart"), [barData, barData2], barOptions);
+        ng.addSerie = function(ctx){
+        	var myChart = new Chart(ctx, {
+        	    type: 'bar',
+        	    data: {
+        	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        	        datasets: [{
+        	            label: '# of Votes',
+        	            data: [12, 19, 3, 5, 2, 3],
+        	            backgroundColor: [
+        	                'rgba(255, 99, 132, 0.2)',
+        	                'rgba(54, 162, 235, 0.2)',
+        	                'rgba(255, 206, 86, 0.2)',
+        	                'rgba(75, 192, 192, 0.2)',
+        	                'rgba(153, 102, 255, 0.2)',
+        	                'rgba(255, 159, 64, 0.2)'
+        	            ],
+        	            borderColor: [
+        	                'rgba(255,99,132,1)',
+        	                'rgba(54, 162, 235, 1)',
+        	                'rgba(255, 206, 86, 1)',
+        	                'rgba(75, 192, 192, 1)',
+        	                'rgba(153, 102, 255, 1)',
+        	                'rgba(255, 159, 64, 1)'
+        	            ],
+        	            borderWidth: 1
+        	        }]
+        	    },
+        	    options: {
+        	        scales: {
+        	            yAxes: [{
+        	                ticks: {
+        	                    beginAtZero:true
+        	                }
+        	            }]
+        	        }
+        	    }
+        	});
         }
         
         ng.init();
