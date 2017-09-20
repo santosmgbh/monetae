@@ -3,19 +3,26 @@
 app.controller('LancamentoController',
     ['FluxoService', 'CentroCustoService', 'LancamentoService', '$scope','$location','$timeout',   function( FluxoService, CentroCustoService, LancamentoService,  $scope, $location, $timeout) {
 
-        var ng = $scope;        
-        ng.obj = {fluxo:{id:null}, centroCusto:{id:null}};
+        var ng = $scope;    
+        ng.treta = "123123123";
+        ng.obj = {fluxo:{id:null}, centroCusto:{id:null}, tipoLancamento: {id:"1", nome:"RECEBIMENTO"}};
         ng.lista=[];
         ng.quantity = 25;
         ng.centrosCustos = [];
         ng.fluxos = [];
-
-        console.log("lancamento conroller")
+        ng.tiposLancamento = [{id:"1", nome:"RECEBIMENTO"}, {id:"2", nome:"PAGAMENTO"}];
+        
         ng.init = function(){
         	ng.getAll();
         	ng.centrosCustos = CentroCustoService.getAll();
         	ng.fluxos = FluxoService.getAll();        	
+        	
         }
+        
+        ng.importarLancamentos = function(){
+        	$location.path("/importacao");
+        };
+       
         
         ng.setEdicao = function(isEdicao){
         	ng.isEdicao = isEdicao;
@@ -101,7 +108,7 @@ app.controller('LancamentoController',
         }
         
         ng.reset = function reset(){            
-            ng.obj={};           
+        	ng.obj = {fluxo:{id:null}, centroCusto:{id:null}, tipoLancamento: {id:"1", nome:"RECEBIMENTO"}};
         }        
         
         ng.init();

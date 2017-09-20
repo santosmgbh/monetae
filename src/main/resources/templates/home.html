@@ -31,6 +31,8 @@
 
 <link href="css/mouldifi-forms.css" rel="stylesheet">
 
+<link href="css/plugins/datepicker/bootstrap-datepicker.css" rel="stylesheet">
+
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -276,7 +278,7 @@
 
 			<!-- Main content -->
 			<div class="main-content">
-				<div ng-include="'app/modal/progress.html'"></div>
+				<div ng-include="'app/modal/progress.html'"></div>				
 				<div ui-view=""></div>
 			</div>
 			<!-- /main content -->
@@ -301,6 +303,19 @@
 	<script src="js/plugins/flot/jquery.flot.pie.min.js"></script>
 	<script src="js/plugins/flot/jquery.flot.time.min.js"></script>
 	<script src="js/functions.js"></script>
+	
+		<!--nouiSlider-->
+	<script src="js/plugins/nouislider/nouislider.min.js"></script>
+	<!-- Input Mask-->
+	<script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+	<!-- Select2-->
+	<script src="js/plugins/select2/select2.full.min.js"></script>
+	<!--Bootstrap ColorPicker-->
+	<script src="js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+	<!--Bootstrap DatePicker-->
+	<script src="js/plugins/datepicker/bootstrap-datepicker.js"></script>
+	<script src="js/plugins/papaparse/papaparse.js"></script>
+		
 
 	<!--Angular-->
 	<script src="js/lib/angular.min.js"></script>
@@ -317,10 +332,13 @@
 	<script src="app/centrocusto/CentroCustoService.js"></script>
 	<script src="app/fluxo/FluxoController.js"></script>
 	<script src="app/fluxo/FluxoService.js"></script>
-	<script src="app/lancamento/LancamentoController.js"></script>
+	<script src="app/lancamento/LancamentoController.js"></script>	
 	<script src="app/lancamento/LancamentoService.js"></script>
+	<script src="app/lancamento/importacao/ImportacaoController.js"></script>
 	<script src="app/estatisticas/EstatisticaController.js"></script>
-	<script src="app/estatisticas/EstatisticaService.js"></script>
+	<script src="app/estatisticas/EstatisticaService.js"></script>	
+	
+	
 
 	<!--ChartJs-->
 	<script src="js/plugins/chartjs/Chart.min.js"></script>

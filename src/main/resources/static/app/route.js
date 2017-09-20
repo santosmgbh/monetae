@@ -40,6 +40,13 @@ app
 								controller : 'EstatisticaController',		
 								templateUrl : 'app/estatisticas/estatistica-view.html',
 							},
+							
+							{					
+								name : 'importacao',								
+								url : '/importacao',			
+								controller : 'ImportacaoController',		
+								templateUrl : 'app/lancamento/importacao/importacoes.html',
+							},
 
 							{
 								name : 'erro',

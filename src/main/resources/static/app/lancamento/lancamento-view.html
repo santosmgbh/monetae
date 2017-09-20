@@ -1,5 +1,5 @@
-<div id="view-content">
-
+<div id="view-content">	
+	<div ng-include="'app/modal/importacoes.html'"></div>
 	<div ng-show="isEdicao">
 		<div ng-include="'app/lancamento/lancamento-cadastro.html'"></div>
 	</div>
@@ -12,6 +12,8 @@
 					<h1 class="page-title pull-left">Lançamento</h1>
 					<button class="btn btn-primary btn-sm btn-add"
 						ng-click="setEdicao(true); reset()">Novo</button>
+						<button class="btn btn-primary btn-sm btn-add"
+						ng-click="importarLancamentos()">Importar lançamentos</button>
 				</div>
 			</div>
 		</div>
