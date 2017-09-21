@@ -6,6 +6,7 @@ app.factory('LancamentoService',
 
             var factory = {
                 loadAll: loadAll,
+                getTiposLancamento: getTiposLancamento,
                 getAll: getAll,
                 get: get,
                 create: create,
@@ -29,6 +30,31 @@ app.factory('LancamentoService',
                     );
                 return deferred.promise;
             }
+                        
+            
+            function getTiposLancamento(ok, error) {            	
+            	if($sessionStorage.tiposLancamento){
+            		ok($sessionStorage.tiposLancamento);
+            		return;
+            	}
+                var deferred = $q.defer();                
+                $http.get(urls.LANCAMENTO_SERVICE_API+"getTiposLancamento")
+                    .then(
+                        function (response) {                        	
+                            $sessionStorage.tiposLancamento = response.data;
+                            deferred.resolve(response);
+                            if(ok)
+                            	ok($sessionStorage.tiposLancamento);
+                        },
+                        function (errResponse) {
+                            deferred.reject(errResponse);
+                            if(error)
+                            	error(errResponse);
+                        }
+                    );
+                return deferred.promise;
+            }
+            
 
             function getAll(){
                 return $sessionStorage.lancamentos;

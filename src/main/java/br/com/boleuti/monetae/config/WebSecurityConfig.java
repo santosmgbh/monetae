@@ -18,7 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import br.com.boleuti.monetae.model.Permissao;
+import br.com.boleuti.monetae.model.TipoLancamento;
 import br.com.boleuti.monetae.repositories.PermissaoRepository;
+import br.com.boleuti.monetae.repositories.TipoLancamentoRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -33,12 +35,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
     private PermissaoRepository roleRepository;
-    
+	
+	@Autowired
+    private TipoLancamentoRepository tipoLancamentoRepository;
+	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	Permissao roleAdmin = new Permissao();
     	roleAdmin.setNome("ADMIN");
     	roleRepository.save(roleAdmin);
+    	
+    	TipoLancamento recebimento = new TipoLancamento();
+    	recebimento.setNome("RECEBIMENTO");
+    	tipoLancamentoRepository.save(recebimento);
+    	TipoLancamento pagamento = new TipoLancamento();
+    	pagamento.setNome("PAGAMENTO");
+    	tipoLancamentoRepository.save(pagamento);
+    	
         http
             .authorizeRequests()
             	.antMatchers("/user/**","/register", "/app/**", "/js/**", "/css/**", "/images/**", "/fonts/**", "/sass/**").permitAll()
@@ -46,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .formLogin()
                 .loginPage("/login")         
-                .failureUrl("/loginError")                
+                .failureUrl("/loginError")   
                 .permitAll()
                 .and()                
             .logout()

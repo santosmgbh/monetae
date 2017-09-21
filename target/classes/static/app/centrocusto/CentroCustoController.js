@@ -10,6 +10,7 @@ app.controller('CentroCustoController',
 
         
         ng.init = function(){
+        	CentroCustoService.loadAll();
         	ng.getAll();
         }
         
@@ -80,7 +81,6 @@ app.controller('CentroCustoController',
 
         ng.getAll = function getAll(){
         	$timeout(function(){       
-        		debugger
         		ng.lista = CentroCustoService.getAll();        		
         	}, 50);
         	        	

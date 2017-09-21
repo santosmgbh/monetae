@@ -16,7 +16,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.boleuti.monetae.model.CentroCusto;
 import br.com.boleuti.monetae.model.Fluxo;
 import br.com.boleuti.monetae.model.Lancamento;
+import br.com.boleuti.monetae.model.TipoLancamento;
 import br.com.boleuti.monetae.repositories.FluxoRepository;
+import br.com.boleuti.monetae.repositories.TipoLancamentoRepository;
 import br.com.boleuti.monetae.service.CentroCustoService;
 import br.com.boleuti.monetae.service.LancamentoService;
 import br.com.boleuti.monetae.service.UserService;
@@ -28,6 +30,9 @@ import br.com.boleuti.monetae.util.CustomErrorType;
 @Controller
 @RequestMapping("/lancamento")
 public class LancamentoController {
+	
+		@Autowired
+		TipoLancamentoRepository tipoLancamentoRepository;
 	
 		@Autowired
 		LancamentoService lancamentoService;
@@ -50,6 +55,16 @@ public class LancamentoController {
 				// You many decide to return HttpStatus.NOT_FOUND
 			}
 			return new ResponseEntity<List<Lancamento>>(list, HttpStatus.OK);
+		}
+		
+		@RequestMapping(method = RequestMethod.GET, path="getTiposLancamento")
+		public ResponseEntity<List<TipoLancamento>> getTiposLancamento() {
+			List<TipoLancamento> list = tipoLancamentoRepository.findAll();
+			if (list == null || list.isEmpty()) {
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
+				// You many decide to return HttpStatus.NOT_FOUND
+			}
+			return new ResponseEntity<List<TipoLancamento>>(list, HttpStatus.OK);
 		}
 		
 		@RequestMapping(value = "{descricao}", method = RequestMethod.GET)

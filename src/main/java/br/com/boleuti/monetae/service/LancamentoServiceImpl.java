@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.boleuti.monetae.model.CentroCusto;
 import br.com.boleuti.monetae.model.Lancamento;
+import br.com.boleuti.monetae.model.vo.LancamentoVO;
 import br.com.boleuti.monetae.repositories.CentroCustoRepository;
 import br.com.boleuti.monetae.repositories.LancamentoRepository;
 
@@ -54,5 +55,6 @@ public class LancamentoServiceImpl implements LancamentoService {
 	public void deleteAll() {
 		lancamentoRepository.deleteAll();
 	}
+
 
 }

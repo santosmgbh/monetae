@@ -10,6 +10,7 @@ app.controller('FluxoController',
 
         
         ng.init = function(){
+        	FluxoService.loadAll();
         	ng.getAll();
         }
         
@@ -79,8 +80,7 @@ app.controller('FluxoController',
 
 
         ng.getAll = function getAll(){
-        	$timeout(function(){       
-        		debugger
+        	$timeout(function(){    
         		ng.lista = FluxoService.getAll();        		
         	}, 50);
         	        	

@@ -57,15 +57,13 @@
 					<thead>
 						<tr>
 							<th>Nome</th>
-							<th>Data Cadastro</th>
-							<th class="text-left">Ativo</th>
+							<th>Data Cadastro</th>							
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="c in lista | filter:searchText | orderBy:'dataCadastro':true | limitTo:quantity"  ng-click="edit(c)">
 							<td><strong>{{c.nome}}</strong></td>							
-							<td ng-bind="c.dataCadastro | date:'MM/dd/yyyy HH:mm:ss'"></td>
-							<td><i class="icon-check icon-larger green-color"></i></td>
+							<td ng-bind="c.dataCadastro | date:'dd/MM/yyyy HH:mm:ss'"></td>							
 						</tr>
 					</tbody>
 				</table>

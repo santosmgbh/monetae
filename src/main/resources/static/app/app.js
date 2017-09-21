@@ -7,7 +7,8 @@ app.constant('urls', {
     CENTROCUSTO_SERVICE_API : 'centroCusto/',
 	FLUXO_SERVICE_API : 'fluxo/',
 	LANCAMENTO_SERVICE_API : 'lancamento/',
-	ESTATISCA_SERVICE_API : 'estatistica/'
+	ESTATISCA_SERVICE_API : 'estatistica/',
+	IMPORTACAO_SERVICE_API : 'importacao/'
 });
 
 app.controller('InitController',

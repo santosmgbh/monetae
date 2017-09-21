@@ -10,10 +10,17 @@ app.controller('LancamentoController',
         ng.quantity = 25;
         ng.centrosCustos = [];
         ng.fluxos = [];
-        ng.tiposLancamento = [{id:"1", nome:"RECEBIMENTO"}, {id:"2", nome:"PAGAMENTO"}];
+        ng.tiposLancamento = [];
         
         ng.init = function(){
+        	console.log("init lancamento");        	
+        	LancamentoService.loadAll();
         	ng.getAll();
+        	ng.tiposLancamento = LancamentoService.getTiposLancamento(function(tiposLancamento){
+        		ng.tiposLancamento = tiposLancamento;	
+        	}, function(error){
+        		
+        	}) ;
         	ng.centrosCustos = CentroCustoService.getAll();
         	ng.fluxos = FluxoService.getAll();        	
         	
@@ -95,8 +102,9 @@ app.controller('LancamentoController',
 
 
         ng.getAll = function getAll(){
-        	$timeout(function(){       
-        		ng.lista = LancamentoService.getAll();        		
+        	$timeout(function(){      
+        		
+        		ng.lista = LancamentoService.getAll();
         	}, 50);
         	        	
         }

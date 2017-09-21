@@ -1,24 +1,19 @@
-package br.com.boleuti.monetae.model;
+package br.com.boleuti.monetae.model.vo;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="LANCAMENTO")
-public class Lancamento {
+public class LancamentoVO {
 	
 	  @Id 
       @GeneratedValue(strategy=GenerationType.AUTO) 
@@ -26,12 +21,12 @@ public class Lancamento {
       
       @Column(name="DESCRICAO", nullable=false)
       private String descricao;
-            
-      @ManyToOne(cascade = CascadeType.ALL)
-      @JoinColumn(name="TIPO_LANCAMENTO")
-      private TipoLancamento tipoLancamento;
+      
+      @Column(name = "TIPO_LANCAMENTO")      
+      private String tipoLancamento;
       
       @Column(name="DATA", nullable=true)
+      @Temporal(TemporalType.TIMESTAMP)
       private Date data;
       
       @Column(name="VALOR", nullable=false)
@@ -39,23 +34,19 @@ public class Lancamento {
       
       @Column(name="PARCELAS", nullable=false)
       private Integer parcelas;
-      
-      @ManyToOne(cascade = CascadeType.ALL)
-      @JoinColumn(name="ID_CENTRO_CUSTO")
-      private CentroCusto centroCusto;
-      
-      @ManyToOne(cascade = CascadeType.ALL)
-      @JoinColumn(name="ID_FLUXO")
-      private Fluxo fluxo;
-      
-      @ManyToOne(cascade = CascadeType.ALL)
-      @JoinColumn(name="ID_USER", nullable=false)
-      private User user;
+            
+      @Column(name="ID_CENTRO_CUSTO")
+      private String centroCusto;
+            
+      @Column(name="ID_FLUXO")
+      private String fluxo;
+            
+      @Column(name="ID_USER")
+      private String user;
       
       @Column(name="DATA_CADASTRO")
       @Temporal(TemporalType.TIMESTAMP)
       private Date dataCadastro = new Date();
- 
 
 	public Long getId() {
 		return id;
@@ -71,6 +62,14 @@ public class Lancamento {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getTipoLancamento() {
+		return tipoLancamento;
+	}
+
+	public void setTipoLancamento(String tipoLancamento) {
+		this.tipoLancamento = tipoLancamento;
 	}
 
 	public Date getData() {
@@ -89,27 +88,35 @@ public class Lancamento {
 		this.valor = valor;
 	}
 
-	public CentroCusto getCentroCusto() {
+	public Integer getParcelas() {
+		return parcelas;
+	}
+
+	public void setParcelas(Integer parcelas) {
+		this.parcelas = parcelas;
+	}
+
+	public String getCentroCusto() {
 		return centroCusto;
 	}
 
-	public void setCentroCusto(CentroCusto centroCusto) {
+	public void setCentroCusto(String centroCusto) {
 		this.centroCusto = centroCusto;
 	}
 
-	public Fluxo getFluxo() {
+	public String getFluxo() {
 		return fluxo;
 	}
 
-	public void setFluxo(Fluxo fluxo) {
+	public void setFluxo(String fluxo) {
 		this.fluxo = fluxo;
 	}
 
-	public User getUser() {
+	public String getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(String user) {
 		this.user = user;
 	}
 
@@ -120,22 +127,8 @@ public class Lancamento {
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
+ 
 
-	public Integer getParcelas() {
-		return parcelas;
-	}
-
-	public void setParcelas(Integer parcelas) {
-		this.parcelas = parcelas;
-	}
-
-	public TipoLancamento getTipoLancamento() {
-		return tipoLancamento;
-	}
-
-	public void setTipoLancamento(TipoLancamento tipoLancamento) {
-		this.tipoLancamento = tipoLancamento;
-	}
 	
 	
 
