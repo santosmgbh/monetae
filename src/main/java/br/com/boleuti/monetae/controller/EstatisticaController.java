@@ -34,8 +34,8 @@ public class EstatisticaController {
 	   
 
 		@RequestMapping(method = RequestMethod.GET, path = "getLineChartLancamentos")
-		public ResponseEntity<LineChart> getLineChartLancamentos(@RequestParam("dtIni") Date dtIni, @RequestParam("dtIni") Date dtFim) {
-			LineChart lineChart = lancamentoService.getLineChartLancamentos(dtIni, dtFim);
+		public ResponseEntity<LineChart> getLineChartLancamentos(@RequestParam("dtIni") Long dtIni, @RequestParam("dtIni") Long dtFim) {
+			LineChart lineChart = lancamentoService.getLineChartLancamentos(new Date(dtIni), new Date(dtFim));
 			if (lineChart == null) {
 				return new ResponseEntity(HttpStatus.NO_CONTENT);
 				// You many decide to return HttpStatus.NOT_FOUND
