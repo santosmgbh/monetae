@@ -29,10 +29,10 @@ public interface LancamentoRepository  extends JpaRepository<Lancamento, Long>  
      */
     List<Lancamento> findAll();
 
-    @Query("SELECT datas.data AS labels, SUM(l.VALOR) AS valores FROM (SELECT DATE_FORMAT(d.selected_date, '%y-%m') data FROM DatePeriods d WHERE d.selected_date BETWEEN :dtIni AND :dtFim) datas LEFT JOIN test.lancamento l ON datas.data = DATE_FORMAT(l.data, '%y-%m') AND l.tipo_lancamento = 2 GROUP BY datas.data ")
+    @Query(value = "SELECT datas.data AS labels, SUM(l.VALOR) AS valores FROM (SELECT DATE_FORMAT(d.selected_date, '%y-%m') data FROM DatePeriods d WHERE d.selected_date BETWEEN :dtIni AND :dtFim) datas LEFT JOIN test.lancamento l ON datas.data = DATE_FORMAT(l.data, '%y-%m') AND l.tipo_lancamento = 2 GROUP BY datas.data ", nativeQuery = true)
 	LineChart getLineDebitos(@Param("dtIni") Date inicio, @Param("dtFim") Date fim);
     
-    @Query("SELECT datas.data AS labels, SUM(l.VALOR) AS valores FROM (SELECT DATE_FORMAT(d.selected_date, '%y-%m') data FROM DatePeriods d WHERE d.selected_date BETWEEN :dtIni AND :dtFim) datas LEFT JOIN test.lancamento l ON datas.data = DATE_FORMAT(l.data, '%y-%m') AND l.tipo_lancamento = 1 GROUP BY datas.data ")
+    @Query(value = "SELECT datas.data AS labels, SUM(l.VALOR) AS valores FROM (SELECT DATE_FORMAT(d.selected_date, '%y-%m') data FROM DatePeriods d WHERE d.selected_date BETWEEN :dtIni AND :dtFim) datas LEFT JOIN test.lancamento l ON datas.data = DATE_FORMAT(l.data, '%y-%m') AND l.tipo_lancamento = 1 GROUP BY datas.data ", nativeQuery = true)
 	LineChart getLineCreditos(@Param("dtIni") Date inicio, @Param("dtFim") Date fim);
        
     

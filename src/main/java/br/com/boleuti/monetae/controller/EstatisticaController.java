@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.boleuti.monetae.model.LineChart;
 import br.com.boleuti.monetae.model.Lancamento;
@@ -33,7 +34,7 @@ public class EstatisticaController {
 	   
 
 		@RequestMapping(method = RequestMethod.GET, path = "getLineChartLancamentos")
-		public ResponseEntity<LineChart> getLineChartLancamentos(@PathVariable("dtIni") Date dtIni, @PathVariable("dtIni") Date dtFim) {
+		public ResponseEntity<LineChart> getLineChartLancamentos(@RequestParam("dtIni") Date dtIni, @RequestParam("dtIni") Date dtFim) {
 			LineChart lineChart = lancamentoService.getLineChartLancamentos(dtIni, dtFim);
 			if (lineChart == null) {
 				return new ResponseEntity(HttpStatus.NO_CONTENT);
