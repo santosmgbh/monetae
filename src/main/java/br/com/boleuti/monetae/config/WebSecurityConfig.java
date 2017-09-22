@@ -1,10 +1,5 @@
 package br.com.boleuti.monetae.config;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-
-import br.com.boleuti.monetae.model.Permissao;
-import br.com.boleuti.monetae.model.TipoLancamento;
-import br.com.boleuti.monetae.repositories.PermissaoRepository;
-import br.com.boleuti.monetae.repositories.TipoLancamentoRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -32,25 +20,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private DataSource dataSource;
-
-	@Autowired
-    private PermissaoRepository roleRepository;
-	
-	@Autowired
-    private TipoLancamentoRepository tipoLancamentoRepository;
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	Permissao roleAdmin = new Permissao();
-    	roleAdmin.setNome("ADMIN");
-    	roleRepository.save(roleAdmin);
-    	
-    	TipoLancamento recebimento = new TipoLancamento();
-    	recebimento.setNome("RECEBIMENTO");
-    	tipoLancamentoRepository.save(recebimento);
-    	TipoLancamento pagamento = new TipoLancamento();
-    	pagamento.setNome("PAGAMENTO");
-    	tipoLancamentoRepository.save(pagamento);
     	
         http
             .authorizeRequests()
@@ -64,9 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()                
             .logout()
                 .permitAll();
-        http.csrf().disable();
-        
-                        
+        http.csrf().disable();                                
     }
 
     @Autowired

@@ -1,5 +1,6 @@
 package br.com.boleuti.monetae.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.boleuti.monetae.model.CentroCusto;
 import br.com.boleuti.monetae.model.Lancamento;
+import br.com.boleuti.monetae.model.LineChart;
 import br.com.boleuti.monetae.model.vo.LancamentoVO;
 import br.com.boleuti.monetae.repositories.CentroCustoRepository;
 import br.com.boleuti.monetae.repositories.LancamentoRepository;
@@ -54,6 +56,12 @@ public class LancamentoServiceImpl implements LancamentoService {
 	@Override
 	public void deleteAll() {
 		lancamentoRepository.deleteAll();
+	}
+
+	@Override
+	public LineChart getLineChartLancamentos(Date inicio, Date fim) {
+		LineChart lineChart = lancamentoRepository.getLineDebitos(inicio, fim);
+		return lineChart;
 	}
 
 

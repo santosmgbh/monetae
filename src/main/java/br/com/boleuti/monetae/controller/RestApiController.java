@@ -83,9 +83,28 @@ public class RestApiController {
 		userService.saveUser(user);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(user.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/home").buildAndExpand().toUri());
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, path="register")
+	public String register(User user, UriComponentsBuilder ucBuilder) {
+		logger.info("Creating User : {}", user);
+
+		if (userService.isUserExist(user)) {
+			logger.error("Unable to create. A User with name {} already exist", user.getNome());
+			return "redirect:/loginError";
+		}
+		user.setSenha(bCryptPasswordEncoder.encode(user.getSenha()));
+        user.setActive(1);
+        Permissao userRole = roleRepository.findByNome("ADMIN");
+        user.setPesmissoes(new HashSet<Permissao>(Arrays.asList(userRole)));		
+		userService.saveUser(user);
+
+		return "redirect:/home";
+	}
+	
+	
 
 	// ------------------- Update a User ------------------------------------------------
 

@@ -16,32 +16,37 @@ app.controller('EstatisticaController',
         }
         
         ng.addSerie = function(ctx){
+        	EstatisticaService.getLineChartLancamentos(function(result){
+        		console.log(result);
+        	});
         	var myChart = new Chart(ctx, {
-        	    type: 'bar',
+        	    type: 'line',
         	    data: {
-        	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        	        labels: ["Jun/2017", "Jul/2017", "Ago/2017", "Set/2017", "Out/2017", "Nov/2017"],
         	        datasets: [{
-        	            label: '# of Votes',
-        	            data: [12, 19, 3, 5, 2, 3],
-        	            backgroundColor: [
-        	                'rgba(255, 99, 132, 0.2)',
-        	                'rgba(54, 162, 235, 0.2)',
-        	                'rgba(255, 206, 86, 0.2)',
-        	                'rgba(75, 192, 192, 0.2)',
-        	                'rgba(153, 102, 255, 0.2)',
-        	                'rgba(255, 159, 64, 0.2)'
-        	            ],
-        	            borderColor: [
-        	                'rgba(255,99,132,1)',
-        	                'rgba(54, 162, 235, 1)',
-        	                'rgba(255, 206, 86, 1)',
-        	                'rgba(75, 192, 192, 1)',
-        	                'rgba(153, 102, 255, 1)',
-        	                'rgba(255, 159, 64, 1)'
-        	            ],
-        	            borderWidth: 1
+        	            label: 'Entradas',
+        	            data: [12, 19, 3, 5, 2, 3],        	            
+        	            borderWidth: 2,
+        	            lineTension: 0,
+        	            borderColor: 'green',
+        	            fill: false
+        	        }, {
+        	            label: 'Saídas',
+        	            data: [23, 15, 5, 3, 1, 6],        	            
+        	            borderWidth: 2,
+        	            lineTension: 0,
+        	            borderColor: 'red',
+        	            fill: false
+        	        }, {
+        	            label: 'Saldo',
+        	            data: [15, 20, 1, 5, 9, 13],        	            
+        	            borderWidth: 2,
+        	            lineTension: 0,
+        	            borderColor: 'blue',
+        	            fill: false
         	        }]
-        	    },
+        	    }
+        	,
         	    options: {
         	        scales: {
         	            yAxes: [{

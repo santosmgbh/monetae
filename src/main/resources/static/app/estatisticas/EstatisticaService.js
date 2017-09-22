@@ -10,21 +10,20 @@ app.factory('EstatisticaService',
 
             return factory;
 
-            function loadAll() {
-                var deferred = $q.defer();
-                $http.get(urls.ESTATISCA_SERVICE_API)
+            function getLineChartLancamentos(ok) {                
+                $http.get(urls.ESTATISCA_SERVICE_API+"getLineChartLancamentos",{
+                    params: { dtIni: '2017-06', dtFim: '2017-11' }
+                })
                     .then(
                         function (response) {
-                            $sessionStorage.dadosGrafico = response.data;
-                            deferred.resolve(response);
+                            if(ok)
+                            	ok(response.data)                            
                         },
-                        function (errResponse) {
-                            deferred.reject(errResponse);
+                        function (errResponse) {                            
                         }
-                    );
-                return deferred.promise;
+                    );                
             }
-          
+
 
         }
     ]);

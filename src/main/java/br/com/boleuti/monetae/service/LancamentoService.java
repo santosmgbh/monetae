@@ -1,10 +1,10 @@
 package br.com.boleuti.monetae.service;
 
+import java.util.Date;
 import java.util.List;
 
-import br.com.boleuti.monetae.model.CentroCusto;
 import br.com.boleuti.monetae.model.Lancamento;
-import br.com.boleuti.monetae.model.vo.LancamentoVO;
+import br.com.boleuti.monetae.model.LineChart;
 
 public interface LancamentoService {
 
@@ -20,7 +20,9 @@ public interface LancamentoService {
 
 	void save(Lancamento obj);
 
-	void deleteAll();	
+	void deleteAll();
+
+	LineChart getLineChartLancamentos(Date inicio, Date fim);	
 
 
 }
