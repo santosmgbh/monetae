@@ -1,0 +1,43 @@
+
+<div class="panel-body">
+	<input type="file" id="importLancamento" /><br /> </select>
+	<div class="table-responsive">
+		<table
+			class="table table-striped table-bordered table-hover dataTables-example">
+			<thead>
+				<tr>
+					<th ng-repeat="coluna in colunasImportacao">{{coluna}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="gradeX" ng-repeat="dado in dadosImportacao">
+					<td ng-repeat="coluna in colunasImportacao">
+						<div ng-if="coluna != 'ID_CENTRO_CUSTO' && coluna != 'ID_FLUXO'">{{dado[coluna]}}</div>
+						<div ng-if="coluna == 'ID_CENTRO_CUSTO'">
+							<div class="row">
+								<div class="col-md-9 col-sm-2">
+									<select id="{{'centrocusto_'+$index}}" class="form-control"
+										ng-options="item as item.nome for item in centrosDeCusto track by item.id"
+										ng-model="dado[coluna]">
+									</select>
+								</div>
+								<div class="col-md-1 col-sm-1">
+									<i class="glyphicon glyphicon-copy" data-toggle="tooltip"
+										data-placement="top" title="Copiar para os demais"></i>
+								</div>
+							</div>
+						</div>
+						<div ng-if="coluna == 'ID_FLUXO'">
+							<select id="{{'fluxo_'+$index}}" class="form-control"
+								ng-options="item as item.nome for item in fluxos track by item.id"
+								ng-model="dado[coluna]">
+							</select>
+						</div>
+
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<button ng-click="importarLancamentos()" class="btn btn-primary">Salvar</button>
+</div>

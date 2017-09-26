@@ -1,0 +1,99 @@
+<div id="view-content">
+	<div ng-show="isEdicao">
+		<div ng-include="'app/lancamento/lancamento-cadastro.html'"></div>
+	</div>
+
+	<div ng-show="!isEdicao">
+		<!-- Secondary header -->
+		<div class="header-secondary row gray-bg">
+			<div class="col-lg-12">
+				<div class="page-heading clearfix">
+					<h1 class="page-title pull-left">Lançamento</h1>
+					<button class="btn btn-primary btn-sm btn-add"
+						ng-click="setEdicao(true); reset()">Novo</button>
+					<button class="btn btn-primary btn-sm btn-add"
+						ng-click="importarLancamentos()">Importar lançamentos</button>
+				</div>
+			</div>
+		</div>
+		<!-- /secondary header -->
+
+		<!-- Filter wrapper -->
+		<div class="row filter-wrapper visible-box" id="filter-box">
+			<div class="col-lg-12">
+				<div class="filter-header">
+					<button aria-label="Close" class="close toggle-filter"
+						type="button" data-block-id="filter-box">
+						<i class="icon-cancel"></i>
+					</button>
+					<h3 class="title">Filtrar</h3>
+				</div>
+				<form class="form-inline">
+					<div class="form-group">
+						<label class="form-label">Nome</label> <input type="text"
+							placeholder="Digite um nome" ng-model="searchText"
+							class="form-control">
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- /filter wrapper -->
+
+		<!-- Main content -->
+		<div>
+			<div class="row datatable-wrapper form-inline">
+				<div class="col-lg-12">
+					<div class="data-col-last clearfix">
+						<div class="col-selectbox">
+							<select ng-model="quantity" class="form-control input-sm">
+								<option value="25">25 Registros</option>
+								<option value="10">10 Registros</option>
+								<option value="50">50 Registros</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-users table-hover">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Valor</th>
+							<th>Tipo</th>
+							<th>Centro de custo</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							ng-repeat="c in lista | filter:searchText | orderBy:'dataCadastro':true | limitTo:quantity"
+							ng-click="edit(c)">
+							<td><strong>{{c.descricao}}</strong></td>
+							<td>{{c.valor}}</td>
+							<td><strong ng-if="c.tipoLancamento.nome == 'RECEBIMENTO'">
+									<p class="text-success">{{c.tipoLancamento.nome}}</p>
+							</strong> <strong ng-if="c.tipoLancamento.nome == 'PAGAMENTO'"> <p
+									class="text-danger">{{c.tipoLancamento.nome}}</p>
+							</strong></strong></td>
+							<td>{{c.centroCusto.nome}}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Footer -->
+			<footer class="footer-main">
+				&copy; 2016 <strong>Mouldifi</strong> Admin Theme by <a
+					target="_blank" href="#/">G-axon</a>
+			</footer>
+			<!-- /footer -->
+
+		</div>
+		<!-- /main content -->
+
+
+		<!-- /page container -->
+	</div>
+
+</div>
