@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import br.com.boleuti.monetae.model.LineChart;
 import br.com.boleuti.monetae.model.Lancamento;
+import br.com.boleuti.monetae.model.chart.Chart;
+import br.com.boleuti.monetae.model.chart.Serie;
 import br.com.boleuti.monetae.repositories.FluxoRepository;
 import br.com.boleuti.monetae.repositories.TipoLancamentoRepository;
 import br.com.boleuti.monetae.service.CentroCustoService;
@@ -34,13 +35,13 @@ public class EstatisticaController {
 	   
 
 		@RequestMapping(method = RequestMethod.GET, path = "getLineChartLancamentos")
-		public ResponseEntity<LineChart> getLineChartLancamentos(@RequestParam("dtIni") Long dtIni, @RequestParam("dtIni") Long dtFim) {
-			LineChart lineChart = lancamentoService.getLineChartLancamentos(new Date(dtIni), new Date(dtFim));
+		public ResponseEntity<Chart> getLineChartLancamentos(@RequestParam("dtIni") Long dtIni, @RequestParam("dtFim") Long dtFim) {
+			Chart lineChart = lancamentoService.getLineChartLancamentos(new Date(dtIni), new Date(dtFim));
 			if (lineChart == null) {
 				return new ResponseEntity(HttpStatus.NO_CONTENT);
 				// You many decide to return HttpStatus.NOT_FOUND
 			}
-			return new ResponseEntity<LineChart>(lineChart, HttpStatus.OK);
+			return new ResponseEntity<Chart>(lineChart, HttpStatus.OK);
 		}		
 
        

@@ -1,14 +1,22 @@
-package br.com.boleuti.monetae.model;
+package br.com.boleuti.monetae.model.chart;
 
 import java.util.List;
 
-public class LineChart {
 
-	
+public class Serie {
+
+
+	private int id;
 	private String title;
 	private List<String> labels;
 	private List<String> valores;
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -27,7 +35,7 @@ public class LineChart {
 	public void setValores(List<String> valores) {
 		this.valores = valores;
 	}
-	
+
 	
 	
 	

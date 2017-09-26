@@ -4,7 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.boleuti.monetae.model.Lancamento;
-import br.com.boleuti.monetae.model.LineChart;
+import br.com.boleuti.monetae.model.chart.Chart;
+import br.com.boleuti.monetae.model.chart.Serie;
 
 public interface LancamentoService {
 
@@ -22,7 +23,7 @@ public interface LancamentoService {
 
 	void deleteAll();
 
-	LineChart getLineChartLancamentos(Date inicio, Date fim);	
+	Chart getLineChartLancamentos(Date inicio, Date fim);	
 
 
 }

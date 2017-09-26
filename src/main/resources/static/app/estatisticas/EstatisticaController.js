@@ -16,13 +16,31 @@ app.controller('EstatisticaController',
         }
         
         ng.addSerie = function(ctx){
-        	EstatisticaService.getLineChartLancamentos(function(result){
+        	var labelSeries = [];
+        	var dataSets = [];
+        	EstatisticaService.getLineChartLancamentos(function(result){        		
+        		if(result.series){
+        			for(i in result.series[0].itens){
+        				labelSeries.push(result.series[0].itens[i]);	
+        			}
+        			
+        			var dataSet = {
+        	            label: 'Entradas',
+        	            data: [12, 19, 3, 5, 2, 3],        	            
+        	            borderWidth: 2,
+        	            lineTension: 0,
+        	            borderColor: 'green',
+        	            fill: false
+        	        };
+        			
+        		}
+        			
         		console.log(result);
         	});
         	var myChart = new Chart(ctx, {
         	    type: 'line',
         	    data: {
-        	        labels: ["Jun/2017", "Jul/2017", "Ago/2017", "Set/2017", "Out/2017", "Nov/2017"],
+        	        labels: labelSeries,
         	        datasets: [{
         	            label: 'Entradas',
         	            data: [12, 19, 3, 5, 2, 3],        	            
