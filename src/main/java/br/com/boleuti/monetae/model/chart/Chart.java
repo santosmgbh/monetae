@@ -31,7 +31,7 @@ public class Chart {
 	}
 	public void setSeriesLabel(List<String> seriesLabel) {
 		this.seriesLabel = seriesLabel;
-	}
+	}	
 	public void addSerie(Serie serie){
 		if(this.series == null)
 			this.series = new ArrayList<Serie>();

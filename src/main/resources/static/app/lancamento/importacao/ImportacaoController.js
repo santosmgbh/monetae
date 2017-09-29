@@ -16,7 +16,7 @@ app.controller('ImportacaoController',
         
         ng.parseFile = function(file){                   
     			Papa.parse(file,{
-    				delimiter:";",
+    				delimiter:",",
     				encoding: "default",
     				header:true,
     				dynamicTyping:true,
@@ -43,14 +43,13 @@ app.controller('ImportacaoController',
         ng.importarLancamentos = function(){        	
         	var lancamentos = [];
         	for(var i in ng.dadosImportacao){
-        		var registro = ng.dadosImportacao[i];
-        		debugger
+        		var registro = ng.dadosImportacao[i];        		
         		var lancamento = {
         				descricao:registro['DESCRICAO'],
         				tipoLancamento:ng.getTipoLancamento(registro['VALOR']),
-        				data:registro['DATA'] != null ? new Date(registro['DATA']): null,
+        				data:registro['DATA'] ? new Date(registro['DATA']): null,
         				valor:ng.formataValor(registro['VALOR']),
-        				parcelas:registro['PARCELAS'],
+        				parcelas:registro['PARCELAS']?registro['PARCELAS']:1,
         				centroCusto:ng.getIdObjeto(registro['ID_CENTRO_CUSTO']),
         				fluxo:ng.getIdObjeto(registro['ID_FLUXO']),
         				user:registro['ID_USER']        				
@@ -75,7 +74,7 @@ app.controller('ImportacaoController',
         
         ng.formataValor = function(valor){     
         	if(valor && typeof valor === 'string')
-        		valor = valor.replace(",", ".")
+        		valor = parseFloat(valor);
     		if(valor && parseInt(valor) < 0){    			
     			valor = (valor+"").replace("-", "");
     		}
