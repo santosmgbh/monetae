@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MonetaeApp {
 
 	public static void main(String[] args)  {
-		SpringApplication.run(MonetaeApp.class, args);
+		SpringApplication.run(MonetaeApp.class, args);		
 	}
 
 
-}
+} 

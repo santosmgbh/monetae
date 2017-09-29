@@ -6,7 +6,8 @@ app.controller('ImportacaoController',
         var ng = $scope;            
         ng.centrosDeCusto = CentroCustoService.getAll();	
         ng.fluxos = FluxoService.getAll();
-        console.log( ng.centrosDeCusto);
+        ng.lancamentosImportados = [];
+        
         var fileInput = document.getElementById('importLancamento');
         // parse when file loaded, then print the result to console
         fileInput.addEventListener('change', function (e) {     	
@@ -16,14 +17,14 @@ app.controller('ImportacaoController',
         
         ng.parseFile = function(file){                   
     			Papa.parse(file,{
-    				delimiter:",",
+    				delimiter:";",
     				encoding: "default",
     				header:true,
     				dynamicTyping:true,
     				complete:function(results){
     					$timeout(function(){
-    						ng.dadosImportacao=results.data;
-    						ng.verificaCamposImportacao();
+    						var dadosImportacao=results.data;
+    						ng.verificaCamposImportacao(dadosImportacao);
         					ng.colunasImportacao=results.meta.fields;    					
         					
     					}, 50);
@@ -33,12 +34,53 @@ app.controller('ImportacaoController',
             });
         }
         
-        ng.verificaCamposImportacao = function(){
-        	for(var i in ng.dadosImportacao){
-        		if(!ng.dadosImportacao[i]["DESCRICAO"])
-        			ng.dadosImportacao.splice(i, 1);
+        ng.verificaCamposImportacao = function(dadosImportacao){
+        	for(var i in dadosImportacao){
+        		var registro = dadosImportacao[i];
+        		var lancamento = {};
+        		lancamento.descricao = registro['DESCRICAO'];
+				lancamento.tipoLancamento = registro['VALOR'];
+				lancamento.data = registro['DATA'];
+				lancamento.valor = registro['VALOR'];
+				lancamento.parcelas = registro['PARCELAS'];
+        		lancamento.centroCusto = registro['ID_CENTRO_CUSTO'];
+        		lancamento.fluxo = registro['ID_FLUXO'];
+        		lancamento.user = registro['ID_USER'];
+        		
+        		
+				if(ng.isCamposLancamentoValido(lancamento)){
+					registro = ng.formatarCamposLancamento(lancamento);
+					ng.lancamentosImportados.push({valido:true, lancamento:registro});					
+				}else{
+					ng.lancamentosImportados.push({valido:false, lancamento:registro});	
+				}
+        		        		
         	}
         }
+        
+        ng.isCamposLancamentoValido = function(lancamento){
+        	if(lancamento.descricao && lancamento.descricao != "")
+    			if(lancamento.tipoLancamento == 1 || lancamento.tipoLancamento == 2)
+    				if(lancamento.data)
+    					if(lancamento.valor || lancamento.valor.indexOf(",") == -1)
+    						return true;
+        	return false;
+        }
+        
+        ng.formatarCamposLancamento = function(lancamento){        	
+        	var lancamento = {
+    				descricao:registro['DESCRICAO'],
+    				tipoLancamento:ng.getTipoLancamento(registro['VALOR']),
+    				data:registro['DATA'] ? new Date(registro['DATA']): null,
+    				valor:ng.formataValor(registro['VALOR']),
+    				parcelas:registro['PARCELAS']?registro['PARCELAS']:1,
+    				centroCusto:ng.getIdObjeto(registro['ID_CENTRO_CUSTO']),
+    				fluxo:ng.getIdObjeto(registro['ID_FLUXO']),
+    				user:registro['ID_USER']        				
+    				}; 
+    		return lancamento;
+        }
+        
         
         ng.importarLancamentos = function(){        	
         	var lancamentos = [];
@@ -73,11 +115,9 @@ app.controller('ImportacaoController',
         }
         
         ng.formataValor = function(valor){     
-        	if(valor && typeof valor === 'string')
-        		valor = parseFloat(valor);
-    		if(valor && parseInt(valor) < 0){    			
+        	if(valor && parseInt(valor) < 0){    			
     			valor = (valor+"").replace("-", "");
-    		}
+    		}        	
         	return valor;
         }
         
@@ -89,6 +129,9 @@ app.controller('ImportacaoController',
         	return valor;
         }
         
+        ng.getClassValidacao = function(valido){
+        	return valido ? 'item-importacao-ok' : 'item-importacao-has-error';
+        }
         
     }
 

@@ -16,7 +16,7 @@ app.controller('EstatisticaController',
         	var labelSeries = [];
         	var dataSets = [];
         	EstatisticaService.getLineChartLancamentos(Date.parse('2017-01'), Date.parse('2017-12'), function(result){   
-        		debugger
+        		console.log(result);
         		var labels = result.seriesLabel;
         		var series = result.series;
         		if(series){

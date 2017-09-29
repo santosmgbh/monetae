@@ -10,15 +10,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="gradeX" ng-repeat="dado in dadosImportacao">
-					<td ng-repeat="coluna in colunasImportacao">
-						<div ng-if="coluna != 'ID_CENTRO_CUSTO' && coluna != 'ID_FLUXO'">{{dado[coluna]}}</div>
+				<tr class="gradeX" ng-repeat="dado in lancamentosImportados">
+					<td ng-repeat="coluna in colunasImportacao" ng-class="getClassValidacao(dado.valido)">
+						<div ng-if="coluna != 'ID_CENTRO_CUSTO' && coluna != 'ID_FLUXO'">{{dado.lancamento[coluna]}}</div>
 						<div ng-if="coluna == 'ID_CENTRO_CUSTO'">
 							<div class="row">
 								<div class="col-md-9 col-sm-2">
 									<select id="{{'centrocusto_'+$index}}" class="form-control"
 										ng-options="item as item.nome for item in centrosDeCusto track by item.id"
-										ng-model="dado[coluna]">
+										ng-model="dado.lancamento[coluna]">
 									</select>
 								</div>
 								<div class="col-md-1 col-sm-1">
@@ -30,7 +30,7 @@
 						<div ng-if="coluna == 'ID_FLUXO'">
 							<select id="{{'fluxo_'+$index}}" class="form-control"
 								ng-options="item as item.nome for item in fluxos track by item.id"
-								ng-model="dado[coluna]">
+								ng-model="dado.lancamento[coluna]">
 							</select>
 						</div>
 
