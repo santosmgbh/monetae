@@ -59,22 +59,30 @@
 					<thead>
 						<tr>
 							<th>Nome</th>
-							<th>Valor</th>
-							<th>Tipo</th>
+							<th>Valor</th>							
+							<th>Data</th>
 							<th>Centro de custo</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr
-							ng-repeat="c in lista | filter:searchText | orderBy:'dataCadastro':true | limitTo:quantity"
+						<tr ng-repeat="c in lista | filter:searchText | orderBy:'dataCadastro':true | limitTo:quantity"
 							ng-click="edit(c)">
+							
 							<td><strong>{{c.descricao}}</strong></td>
-							<td>{{c.valor}}</td>
-							<td><strong ng-if="c.tipoLancamento.nome == 'RECEBIMENTO'">
-									<p class="text-success">{{c.tipoLancamento.nome}}</p>
-							</strong> <strong ng-if="c.tipoLancamento.nome == 'PAGAMENTO'"> <p
-									class="text-danger">{{c.tipoLancamento.nome}}</p>
-							</strong></strong></td>
+							
+							<td>							
+								<strong ng-if="c.tipoLancamento.nome == 'RECEBIMENTO'">
+										<p class="text-success">{{c.valor}}</p>								
+								</strong> 
+								<strong ng-if="c.tipoLancamento.nome == 'PAGAMENTO'"> 
+									<p class="text-danger">{{c.valor}}</p> 
+								</strong>
+							</td>
+							
+							<td>
+								{{c.data | date:'dd/MM/yyyy' }}
+							</td>
+							
 							<td>{{c.centroCusto.nome}}</td>
 							
 						</tr>

@@ -69,9 +69,12 @@ public class LancamentoController {
 		
 		@RequestMapping(value = "{descricao}", method = RequestMethod.GET)
 		public ResponseEntity<?> findByDescricao(@PathVariable("descricao") String nome) {
+			if(nome == null || nome.isEmpty()){
+				return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+			}
 			Lancamento obj = lancamentoService.findByDescricao(nome);
 			if (obj == null) {
-				return new ResponseEntity(new CustomErrorType("Nï¿½o encontrado com o nome "+nome), HttpStatus.NOT_FOUND);
+				return new ResponseEntity(new CustomErrorType("Não encontrado com o nome "+nome), HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<Lancamento>(obj, HttpStatus.OK);
 		}
@@ -90,11 +93,15 @@ public class LancamentoController {
 		@RequestMapping(method = RequestMethod.POST)
 		public ResponseEntity<?> create(@RequestBody Lancamento obj, UriComponentsBuilder ucBuilder) {
 
+			if(obj == null){
+				return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+			}
+				
 			if (obj.getId() != null && lancamentoService.exists(obj.getId())) {
 				return new ResponseEntity(
 						new CustomErrorType("Unable to create. A User with name " + obj.getDescricao() + " already exist."),
 						HttpStatus.CONFLICT);
-			}			
+			}					
 			obj.setUser(userService.getUsuarioLogado());
 			Fluxo fluxo = fluxoRepository.findOne(obj.getFluxo().getId());
 			CentroCusto centroCusto = centroCustoService.findOne(obj.getCentroCusto().getId());
