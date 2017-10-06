@@ -34,6 +34,10 @@ app.controller('ImportacaoController',
             });
         }
         
+        ng.changeEdit = function(component){
+        	console.log(component);
+        }
+        
         ng.verificaCamposImportacao = function(dadosImportacao){
         	for(var i in dadosImportacao){
         		var registro = dadosImportacao[i];
@@ -67,7 +71,7 @@ app.controller('ImportacaoController',
         	return false;
         }
         
-        ng.formatarCamposLancamento = function(lancamento){        	
+        ng.formatarCamposLancamento = function(registro){        	
         	var lancamento = {
     				descricao:registro['DESCRICAO'],
     				tipoLancamento:ng.getTipoLancamento(registro['VALOR']),
@@ -82,20 +86,11 @@ app.controller('ImportacaoController',
         }
         
         
-        ng.importarLancamentos = function(){        	
+        ng.importarLancamentos = function(){           	
         	var lancamentos = [];
-        	for(var i in ng.dadosImportacao){
-        		var registro = ng.dadosImportacao[i];        		
-        		var lancamento = {
-        				descricao:registro['DESCRICAO'],
-        				tipoLancamento:ng.getTipoLancamento(registro['VALOR']),
-        				data:registro['DATA'] ? new Date(registro['DATA']): null,
-        				valor:ng.formataValor(registro['VALOR']),
-        				parcelas:registro['PARCELAS']?registro['PARCELAS']:1,
-        				centroCusto:ng.getIdObjeto(registro['ID_CENTRO_CUSTO']),
-        				fluxo:ng.getIdObjeto(registro['ID_FLUXO']),
-        				user:registro['ID_USER']        				
-        				};  
+        	for(var i in ng.lancamentosImportados){
+        		var registro = ng.lancamentosImportados[i].lancamento;        		
+        		var lancamento = ng.formatarCamposLancamento(registro);
         		lancamentos.push(lancamento);
         	}
         	ng.loading(true);
@@ -104,8 +99,10 @@ app.controller('ImportacaoController',
         		ng.loading(false);
         		ng.alert(ng.ALERT_SUCCESS, "Lançamentos importados com sucesso!");        		
             	$location.path("/lancamento");
-        	}, function(){
-        		ng.alert(ng.ALERT_DANGER, "Problema ao importar dados!");
+        	}, function(response){
+        		ng.loading(false);
+        		console.log(response);
+        		ng.alert(ng.ALERT_DANGER, "Problema ao importar dados! \n"+response);        		
         	});
         	
         }
@@ -116,8 +113,11 @@ app.controller('ImportacaoController',
         
         ng.formataValor = function(valor){     
         	if(valor && parseInt(valor) < 0){    			
-    			valor = (valor+"").replace("-", "");
-    		}        	
+    			valor = (valor+"").replace("-", "");    			
+    		}
+        	if(valor){
+        		valor = (valor+"").replace(",", ".")
+        	}
         	return valor;
         }
         

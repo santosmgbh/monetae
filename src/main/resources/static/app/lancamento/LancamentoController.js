@@ -16,7 +16,7 @@ app.controller('LancamentoController',
         	console.log("init lancamento");        	
         	LancamentoService.loadAll();
         	ng.getAll();
-        	ng.tiposLancamento = LancamentoService.getTiposLancamento(function(tiposLancamento){
+        	LancamentoService.getTiposLancamento(function(tiposLancamento){
         		ng.tiposLancamento = tiposLancamento;	
         	}, function(error){
         		

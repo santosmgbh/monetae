@@ -84,7 +84,6 @@ public class LancamentoServiceImpl implements LancamentoService {
 		
 		chartResultadoLancamentos.setSeriesLabel(seriesLabel);
 		
-		NumberFormat formatNumber = new DecimalFormat("#.####");
 		
 		List<Object[]> creditos = lancamentoRepository.getSomaValores(inicio, fim, tipoLancamentoRepository.findByNome("RECEBIMENTO"));
 		Serie serieCreditos = new Serie();	
@@ -94,7 +93,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 			serieCreditos.addLabel(String.valueOf(formatLabel.format(d)));
 			 for(Object[] o: creditos){							
 				if(formatLabel.format(d).equals(o[0])){
-					serieCreditos.addValor(formatNumber.format(o[1]));
+					serieCreditos.addValor(o[1]);
 					continue a;
 				}
 			}
@@ -110,7 +109,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 			serieDebitos.addLabel(String.valueOf(formatLabel.format(d)));
 			 for(Object[] o: debitos){							
 				if(formatLabel.format(d).equals(o[0])){					
-					serieDebitos.addValor(formatNumber.format(o[1]));
+					serieDebitos.addValor(o[1]);
 					continue a;
 				}
 			}
@@ -126,7 +125,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 			serieSaldos.addLabel(String.valueOf(formatLabel.format(d)));
 			 for(Object[] o: saldos){							
 				if(formatLabel.format(d).equals(o[0])){					
-					serieSaldos.addValor(formatNumber.format(o[1]));
+					serieSaldos.addValor(o[1]);
 					continue a;
 				}
 			}
