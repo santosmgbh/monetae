@@ -9,9 +9,16 @@ app.controller('FluxoController',
         ng.quantity = 25;
 
         
-        ng.init = function(){
-        	FluxoService.loadAll();
-        	ng.getAll();
+        ng.init = function(){        	
+        	ng.loading(true);
+        	FluxoService.loadAll().then(function(){
+        		ng.getAll();
+        		ng.loading(false);
+        	}, function(error){
+        		console.log(error);
+        		ng.alert(ng.ALERT_DANGER, "Ocorreu um problema!");
+        	});
+        	
         }
         
         ng.setEdicao = function(isEdicao){

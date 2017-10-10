@@ -10,8 +10,16 @@ app.controller('CentroCustoController',
 
         
         ng.init = function(){
-        	CentroCustoService.loadAll();
-        	ng.getAll();
+        	
+        	ng.loading(true);
+        	CentroCustoService.loadAll().then(function(){
+        		ng.getAll();
+        		ng.loading(false);
+        	}, function(error){
+        		console.log(error);
+        		ng.alert(ng.ALERT_DANGER, "Ocorreu um problema!");
+        	});
+        	
         }
         
         ng.setEdicao = function(isEdicao){

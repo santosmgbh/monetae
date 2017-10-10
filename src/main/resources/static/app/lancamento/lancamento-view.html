@@ -1,4 +1,5 @@
 <div id="view-content">
+<link href="css/plugins/datatables/jquery.dataTables.css" rel="stylesheet">
 	<div ng-show="isEdicao">
 		<div ng-include="'app/lancamento/lancamento-cadastro.html'"></div>
 	</div>
@@ -55,9 +56,9 @@
 				</div>
 			</div>
 			<div class="table-responsive">
-				<table class="table table-users table-hover">
+				<table class="table table-striped table-bordered table-hover dataTables-lancamento">
 					<thead>
-						<tr>
+						<tr>							
 							<th>Nome</th>
 							<th>Valor</th>							
 							<th>Data</th>
@@ -66,8 +67,7 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="c in lista | filter:searchText | orderBy:'dataCadastro':true | limitTo:quantity"
-							ng-click="edit(c)">
-							
+							ng-click="edit(c)">							
 							<td><strong>{{c.descricao}}</strong></td>
 							
 							<td>							
@@ -105,3 +105,5 @@
 	</div>
 
 </div>
+<script src="js/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="js/plugins/datatables/dataTables.bootstrap.min.js"></script>

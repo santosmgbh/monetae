@@ -84,7 +84,11 @@
 					commandline using java -jar NAME -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<addResources>true</addResources>
+				</configuration>
 			</plugin>
+
 		</plugins>
 
 	</build>
@@ -103,5 +107,5 @@
 			<name>Spring Releases</name>
 			<url>https://repo.spring.io/libs-release</url>
 		</pluginRepository>
-	</pluginRepositories>
+	</pluginRepositories>	
 </project>

@@ -21,7 +21,7 @@ app.factory('CentroCustoService',
                     .then(
                         function (response) {
                             $sessionStorage.centrosCustos = response.data;
-                            deferred.resolve(response);
+                            deferred.resolve(response.data);
                         },
                         function (errResponse) {
                             deferred.reject(errResponse);

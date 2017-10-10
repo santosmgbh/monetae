@@ -13,18 +13,33 @@ app.controller('LancamentoController',
         ng.tiposLancamento = [];
         
         ng.init = function(){
-        	console.log("init lancamento");        	
-        	LancamentoService.loadAll();
-        	ng.getAll();
+        	
+        	
+        	console.log("init lancamento");
+        	ng.loading(true);
+        	LancamentoService.loadAll().then(function(){
+        		ng.getAll();	
+        		ng.loading(false);
+        		$timeout(function(){
+            		$('.dataTables-lancamento').DataTable();	
+            	}, 50)
+        	}, function(error){
+        		console.log(error);
+        		ng.alert(ng.ALERT_DANGER, "Ocorreu um problema!")
+        	});
+        	
         	LancamentoService.getTiposLancamento(function(tiposLancamento){
         		ng.tiposLancamento = tiposLancamento;	
         	}, function(error){
         		
         	}) ;
         	ng.centrosCustos = CentroCustoService.getAll();
-        	ng.fluxos = FluxoService.getAll();        	
+        	ng.fluxos = FluxoService.getAll();
+        	        	
         	
         }
+        
+        
         
         ng.importarLancamentos = function(){
         	$location.path("/importacao");
@@ -44,6 +59,10 @@ app.controller('LancamentoController',
             } else {
             	ng.update(ng.obj, ng.obj.id);
             }                              
+        }
+        
+        ng.cancel = function(){
+        	ng.setEdicao(false); 
         }
         
 
