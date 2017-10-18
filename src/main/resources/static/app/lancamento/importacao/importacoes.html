@@ -1,6 +1,13 @@
 
 <div class="panel-body">
-	<input type="file" id="importLancamento" /><br /> 
+	<input type="file" id="importLancamento" /><br />
+	<div ng-show="colunasImportacao">
+		<p>Tipo do valor:</p>
+		<select ng-init="tipoValor = tiposValor[0]" class="form-control"
+			ng-options="item as item.nome for item in tiposValor"
+			ng-change="trocaTipoValor(tipoValor)" ng-model="tipoValor">
+		</select>
+	</div>
 	<div class="table-responsive">
 		<table
 			class="table table-striped table-bordered table-hover dataTables-example">
@@ -16,57 +23,75 @@
 			</thead>
 			<tbody>
 				<tr class="gradeX" ng-repeat="dado in lancamentosImportados ">
-						
-					<td>
-					<i class="glyphicon glyphicon-remove text-danger"
+
+					<td><i class="glyphicon glyphicon-remove text-danger"
 						ng-click="lancamentosImportados.splice($index, 1);"
 						data-toggle="tooltip" data-placement="top"
 						title="Dado inv&aacute;lido!"></i></td>
-					<td>					
-						<div >
-							<input  type="text" ng-model="dado.lancamento.data"
-								class="form-control"> <i id="edit_1" class="icon-check text-success"
-								onclick="openClose(this)"></i>
+					<td>
+						<div ng-show="dataEdit">
+							<input type="text" ng-model="dado.lancamento.data"
+								class="form-control"> <i id="edit_1"
+								class="icon-check text-success" ng-click="dataEdit = false"></i>
 						</div>
-						<div id="view_1" onclick="openClose(this)" >
+						<div id="view_1" ng-show="!dataEdit" ng-click="dataEdit = true">
 							{{dado.lancamento.data}}</div>
 					</td>
-					<td >
-						<div id="edit_2">
+					<td>
+						<div id="edit_2" ng-show="descEdit">
 							<input type="text" ng-model="dado.lancamento.descricao"
 								class="form-control"> <i class="icon-check text-success"
-								onclick="openClose(this.id)"></i>
+								ng-click="descEdit = false"></i>
 						</div>
-						<div id="view_2"   onclick="openClose(this.id)" >
+						<div id="view_2" ng-show="!descEdit" ng-click="descEdit = true">
 							{{dado.lancamento.descricao}}</div>
 					</td>
-					<td id="{{3+'_'+$index}}">
-						<div id="edit_3" >
+					<td>
+						<div id="edit_3" ng-show="valorEdit">
 							<input type="text" ng-model="dado.lancamento.valor"
 								class="form-control"> <i class="icon-check text-success"
-								onclick="openClose(this.id)"></i>
+								ng-click="valorEdit = false"></i>
 						</div>
-						<div id="view_3"  onclick="openClose(this.id)" >
-							{{dado.lancamento.valor}}</div>
+						<div id="view_3" ng-show="!valorEdit" ng-click="valorEdit = true">
+
+
+							<p ng-show="dado.lancamento.tipoLancamento == 2"
+								class="text-danger">{{dado.lancamento.valor}}</p>
+							<p ng-show="dado.lancamento.tipoLancamento == 1"
+								class="text-success">{{dado.lancamento.valor}}</p>
+
+						</div>
 					</td>
-					<td id="{{4+'_'+$index}}">
-						<select class="form-control"
-							ng-options="item as item.nome for item in centrosCustos"
-							ng-model="dado.lancamento.centroCusto">
-						</select>
-					</td>
-					<td id="{{5+'_'+$index}}">
-						<select class="form-control"
-							ng-options="item as item.nome for item in fluxos"
-							ng-model="dado.lancamento.fluxo">
-						</select>
-					</td>
-														
+					<td id="{{4+'_'+$index}}"><select class="form-control"
+						ng-show="dado.lancamento.centroCusto.id"
+						ng-options="item as item.nome for item in centrosCustos"
+						ng-model="dado.lancamento.centroCusto">
+					</select>
+						<div
+							ng-show="!(dado.lancamento.centroCusto) || !(dado.lancamento.centroCusto.id)">
+							{{dado.lancamento.centroCusto.nome}} <i
+								class="glyphicon  glyphicon-plus text-success"
+								ng-click="adicionarCentroDeCusto(dado.lancamento.centroCusto)"
+								data-toggle="tooltip" data-placement="top"
+								title="Adicionar centro de custo"></i>
+						</div></td>
+					<td id="{{5+'_'+$index}}"><select class="form-control"
+						ng-options="item as item.nome for item in fluxos"
+						ng-model="dado.lancamento.fluxo">
+					</select> <i class="glyphicon  glyphicon-arrow-up text-warning"
+						ng-click="replicarFluxoParaCima($index, dado.lancamento.fluxo)"
+						data-toggle="tooltip" data-placement="top"
+						title="Replicar para os de baixo"></i> <i
+						class="glyphicon  glyphicon-arrow-down text-warning"
+						ng-click="replicarFluxoParaBaixo($index, dado.lancamento.fluxo)"
+						data-toggle="tooltip" data-placement="top"
+						title="Replicar para os de baixo"></i></td>
+
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	
+
 	<script>
 		
 		function openClose (id){

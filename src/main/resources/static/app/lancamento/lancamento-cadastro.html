@@ -37,7 +37,7 @@
 								<label class="col-sm-2 control-label">Data</label>
 								<div class="col-sm-10">
 									<div id="date-popup" class="input-group date">
-										<input type="text" id="data" ng-model="obj.data | date: 'dd/MM/yyyy'" data-format="D, dd MM yyyy"
+										<input type="text" id="data" ng-model="obj.data" data-format="D, dd MM yyyy"
 											class="form-control"> <span class="input-group-addon"><i
 											class="fa fa-calendar"></i></span>
 									</div>
@@ -82,6 +82,8 @@
 							<button type="submit" ng-click="cancel()" class="btn btn-white">Cancelar</button>
 							<button type="submit" class="btn btn-primary"
 								ng-click="submit(obj);">Salvar</button>
+							<button type="submit" class="btn btn-danger"
+								ng-click="remove(obj.id);">Excluir</button>
 						</form>
 					</div>
 				</div>

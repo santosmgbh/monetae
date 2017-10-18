@@ -33,7 +33,7 @@ public interface LancamentoRepository  extends JpaRepository<Lancamento, Long>  
     @Query(value = "select date_format(data, '%m-%Y'), sum(valor) valor from LANCAMENTO where TIPO_LANCAMENTO = :tipo AND data between :dtIni and :dtFim group by date_format(data, '%y-%m') ", nativeQuery = true)
     List<Object[]> getSomaValores(@Param("dtIni") Date dtIni, @Param("dtFim") Date dtFim, @Param("tipo") TipoLancamento tipo);
 
-    @Query(value = "select date_format(data, '%m-%Y'), sum(CASE WHEN TIPO_LANCAMENTO = 1 THEN valor ELSE (VALOR * -1) END) creditos from LANCAMENTO where data between :dtIni and :dtFim group by date_format(data, '%y-%m') ", nativeQuery = true)
-    List<Object[]> getSaldos(@Param("dtIni") Date dtIni, @Param("dtFim") Date dtFim);
+    @Query(value = "select data, @saldo := @saldo + entrada_saida from (SELECT @saldo := 0) as vars, (select date_format(data, '%m-%Y') data, sum(if(L.TIPO_LANCAMENTO = 1, valor, valor*-1)) entrada_saida from LANCAMENTO L where  data between str_to_date('1900-01-01', '%Y-%m-%d') and :dtFim group by date_format(data, '%y-%m')) es ", nativeQuery = true)
+    List<Object[]> getSaldos(@Param("dtFim") Date dtFim);
        
 }

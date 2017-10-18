@@ -17,6 +17,17 @@ app
 
 							var ng = $scope;
 
+							ng.tiposValor = [ {
+								id : 1,
+								nome : "Automatico"
+							}, {
+								id : 2,
+								nome : "Positivo"
+							}, {
+								id : 3,
+								nome : "Negativo"
+							} ];
+
 							CentroCustoService.loadAll().then(function() {
 								ng.centrosCustos = CentroCustoService.getAll();
 							}, function(error) {
@@ -37,6 +48,7 @@ app
 							// console
 							fileInput.addEventListener('change', function(e) {
 								var file = e.target.files[0];
+								ng.lancamentosImportados = [];
 								ng.parseFile(file);
 							});
 
@@ -108,16 +120,15 @@ app
 									}
 
 								}
-								debugger;
 							}
-							
-							ng.openClose = function (index) {
-							      if(ng.selectedValue == index){
-							        ng.selectedValue = -1;
-							      }else{
-							      	 ng.selectedValue = index;
-							      }
-							    }
+
+							ng.openClose = function(index) {
+								if (ng.selectedValue == index) {
+									ng.selectedValue = -1;
+								} else {
+									ng.selectedValue = index;
+								}
+							}
 
 							ng.isCamposLancamentoValido = function(lancamento) {
 								if (lancamento.descricao
@@ -153,10 +164,17 @@ app
 							ng.importarLancamentos = function() {
 								var lancamentos = [];
 								for ( var i in ng.lancamentosImportados) {
-									var registro = ng.lancamentosImportados[i].lancamento;
-									var lancamento = ng
-											.formatarCamposLancamento(registro);
-									lancamentos.push(lancamento);
+									var lancamento = ng.lancamentosImportados[i].lancamento;
+									var registro = {
+										descricao : lancamento.descricao,
+										tipoLancamento : lancamento.tipoLancamento,
+										data : lancamento.data,
+										valor : lancamento.valor,
+										parcelas : lancamento.parcelas,
+										centroCusto : lancamento.centroCusto.id != null ?lancamento.centroCusto.id :null ,
+										fluxo : lancamento.fluxo.id != null ?lancamento.fluxo.id :null
+									};
+									lancamentos.push(registro);
 								}
 								ng.loading(true);
 								ImportacaoService
@@ -165,12 +183,9 @@ app
 												function() {
 													LancamentoService.loadAll();
 													ng.loading(false);
-													ng
-															.alert(
-																	ng.ALERT_SUCCESS,
-																	"LanÃ§amentos importados com sucesso!");
-													$location
-															.path("/lancamento");
+													ng.lancamentosImportados = [];
+													ng.alert(ng.ALERT_SUCCESS,
+															"Lançamentos importados com sucesso!");						
 												},
 												function(response) {
 													ng.loading(false);
@@ -188,6 +203,7 @@ app
 
 							ng.getValor = function(registro) {
 								var valores = ng.valuesToArray(registro);
+								var containsCentroCusto = false;
 								if (ng.formatoImportacao == FORMATO_SEM_COLUNA_VALOR) {
 									if (valores) {
 										var c = 0;
@@ -204,24 +220,30 @@ app
 													continue;
 												}
 												var nomeCentroCusto = ng.colunasImportacao[c];
-												var cc = 0;
-												for (cc in ng.centrosCustos) {
-													if (ng.centrosCustos[cc].nome
-															.toUpperCase() == nomeCentroCusto
-															.toUpperCase()) {
-														if (valores[c]) {
-															return ng
-																	.formataValor(valores[c]);
+												
+												if (valores[c]) {
+													var cc = 0;												
+													for (cc in ng.centrosCustos) {
+														if (ng.centrosCustos[cc].nome
+																.toUpperCase() == nomeCentroCusto
+																.toUpperCase()) {
+															containsCentroCusto = true;														
+																return ng
+																		.formataValor(valores[c]);														
 														}
 													}
+													return ng.formataValor(valores[c]);
 												}
 
 											}
-										}
+										}										
 									}
+									
 								} else {
 									return ng.formataValor(valores[c]);
 								}
+								
+								
 							}
 
 							ng.formataValor = function(valor) {
@@ -241,16 +263,26 @@ app
 
 							ng.formataData = function(data) {
 								var d = new Date(data);
+								if(d == "Invalid Date"){
+									if(data.indexOf("/") != -1){
+										var parts = data.split("/");															
+										d = new Date( parts[1]+"/"+parts[0]+"/"+parts[2] );
+									}else if(data.indexOf("-") != -1){
+										var parts = data.split("-");															
+										d = new Date( parts[1]+"/"+parts[0]+"/"+parts[2] );
+									}
+									
+									
+								}
 								return d;
 							}
 
 							ng.getFluxo = function(registro) {
 								if (registro['ID_FLUXO']) {
-									for (cc in ng.centrosCustos) {
-										if (ng.centrosCustos[cc].nome
-												.toUpperCase() == registro['ID_FLUXO']) {
+									for (cc in ng.fluxos) {
+										if (ng.fluxos[cc].nome.toUpperCase() == registro['ID_FLUXO']) {
 											if (valores[c]) {
-												return ng.centrosCustos[cc];
+												return ng.fluxos[cc];
 											}
 										}
 									}
@@ -276,14 +308,18 @@ app
 												}
 												var nomeCentroCusto = ng.colunasImportacao[c];
 												var cc = 0;
-												for (cc in ng.centrosCustos) {
-													if (ng.centrosCustos[cc].nome
-															.toUpperCase() == nomeCentroCusto
-															.toUpperCase()) {
-														if (valores[c]) {
+												if (valores[c]
+														&& valores[c] != "") {
+													for (cc in ng.centrosCustos) {
+														if (ng.centrosCustos[cc].nome
+																.toUpperCase() == nomeCentroCusto
+																.toUpperCase()) {
 															return ng.centrosCustos[cc];
 														}
 													}
+													return {
+														nome : nomeCentroCusto
+													};
 												}
 
 											}
@@ -313,6 +349,85 @@ app
 							ng.getClassValidacao = function(valido) {
 								return valido ? 'item-importacao-ok'
 										: 'item-importacao-has-error';
+							}
+
+							ng.replicarFluxoParaBaixo = function(index, fluxo) {
+								if (fluxo) {
+									var i = index;
+									while (i++ < ng.lancamentosImportados.length) {
+										ng.lancamentosImportados[i].lancamento.fluxo = fluxo;
+									}
+								} else {
+									ng.alert(ng.ALERT_DANGER,
+											"Selecione um item para seguir ")
+								}
+							}
+
+							ng.replicarFluxoParaCima = function(index, fluxo) {
+								if (fluxo) {
+									var i = index;
+									while (i-- >= 0) {
+										ng.lancamentosImportados[i].lancamento.fluxo = fluxo;
+									}
+								} else {
+									ng.alert(ng.ALERT_DANGER,
+											"Selecione um item para seguir ")
+								}
+							}
+
+							ng.adicionarCentroDeCusto = function(centroCusto) {
+								ng.loading(true);
+								CentroCustoService
+										.create(centroCusto)
+										.then(
+												function(response) {
+													ng.loading(false);
+													ng.centrosCustos
+															.push(response);
+													ng.alert(ng.ALERT_SUCCESS,
+															"Criado!");
+													var l = 0;
+													for (l in ng.lancamentosImportados) {
+														if (ng.lancamentosImportados[l].centroCusto.nome == centroCusto.nome) {
+															ng.lancamentosImportados[l].centroCusto = response;
+															break;
+														}
+													}
+												},
+												function(errResponse) {
+													ng.loading(false);
+													ng
+															.alert(
+																	ng.ALERT_DANGER,
+																	"Problema ao salvar!");
+												});
+							}
+
+							ng.trocaTipoValor = function(tipoValor) {
+								console.log(tipoValor);
+								if (tipoValor.id == 1) {
+									var l = 0;
+									for (l in ng.lancamentosImportados) {
+										ng.lancamentosImportados[l].lancamento.tipoLancamento = ng
+												.getTipoLancamento(ng.lancamentosImportados[l].valor);
+									}
+								} else if (tipoValor.id == 2) {// Positivo
+									var l = 0;
+									for (l in ng.lancamentosImportados) {
+										ng.lancamentosImportados[l].lancamento.tipoLancamento = 1;
+										if (ng.lancamentosImportados[l].lancamento.valor) {
+											if (parseInt(ng.lancamentosImportados[l].lancamento.valor) < 0)
+												ng.lancamentosImportados[l].lancamento.tipoLancamento = 2;
+										}
+									}
+								} else if (tipoValor.id == 3) {// Negativo
+									var l = 0;
+									for (l in ng.lancamentosImportados) {
+										ng.lancamentosImportados[l].lancamento.tipoLancamento = 2;
+										if (parseInt(ng.lancamentosImportados[l].lancamento.valor) < 0)
+											ng.lancamentosImportados[l].lancamento.tipoLancamento = 1;
+									}
+								}
 							}
 
 						}

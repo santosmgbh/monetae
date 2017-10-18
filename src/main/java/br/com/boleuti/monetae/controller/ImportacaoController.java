@@ -2,6 +2,8 @@ package br.com.boleuti.monetae.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,13 +28,13 @@ public class ImportacaoController {
 		LancamentoVORepository LancamentoVORepository;
 	   
 
-		@RequestMapping(method = RequestMethod.POST, path = "importarLancamentos")		
-		public ResponseEntity<?> importarLancamentos(@RequestBody List<LancamentoVO> lancamentos, UriComponentsBuilder ucBuilder) {
-			for(LancamentoVO l: lancamentos){
-				LancamentoVORepository.save(l);
-			}
-			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(ucBuilder.path("Lancamento/{id}").buildAndExpand(lancamentos.size()).toUri());
+		@RequestMapping(method = RequestMethod.POST, path = "importarLancamentos")
+		
+		@Transactional
+		public ResponseEntity<?> importarLancamentos(@RequestBody List<LancamentoVO> lancamentos, UriComponentsBuilder ucBuilder) {			
+			LancamentoVORepository.save(lancamentos);
+			
+			HttpHeaders headers = new HttpHeaders();			
 			return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 		}
 

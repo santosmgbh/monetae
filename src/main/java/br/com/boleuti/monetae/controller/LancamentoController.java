@@ -107,6 +107,7 @@ public class LancamentoController {
 			CentroCusto centroCusto = centroCustoService.findOne(obj.getCentroCusto().getId());
 			obj.setFluxo(fluxo);
 			obj.setCentroCusto(centroCusto);
+			obj.setTipoLancamento(tipoLancamentoRepository.findOne(obj.getTipoLancamento().getId()));
 			lancamentoService.save(obj);
 
 			HttpHeaders headers = new HttpHeaders();

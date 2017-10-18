@@ -24,16 +24,21 @@ app.controller('InitController',
 	    		 UsuarioService.logout();
 	    		 $window.location.reload();
 	    	 }
-	    	 
-	    	 ng.loading = function(visivel){
+	    	 var isLoading = false;
+	    	 ng.loading = function(visivel){	    		 
 	    		 $timeout(function(){
 	    			 console.log("loading")
 		    		 console.log(visivel)
 		    		 if(visivel)
-		    			 $("#modal-progress").modal('show');
+		    		 
+		    			 $("#modal-progress").modal({
+			    			  backdrop: 'static',
+			    			  keyboard: false,
+			    			  show: true
+			    			});
 		    		 else
 		    			 $("#modal-progress").modal('hide');	 
-	    		 }, 100);
+	    		 }, 100);	    		 
 	    	 }
 	    	 
 	    	 ng.alert = function(tipo, message){

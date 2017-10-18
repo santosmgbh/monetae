@@ -8,6 +8,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,9 @@ public class LancamentoServiceImpl implements LancamentoService {
 	
 	@Autowired
 	private TipoLancamentoRepository tipoLancamentoRepository;
+	
+	@Autowired
+    private EntityManagerFactory entityManagerFactory;
 
 
 	@Override
@@ -115,18 +121,19 @@ public class LancamentoServiceImpl implements LancamentoService {
 			}
 			 serieDebitos.addValor("0");			
 		}
-		chartResultadoLancamentos.addSerie(serieDebitos);
-		
-		List<Object[]> saldos = lancamentoRepository.getSaldos(inicio, fim);
+		chartResultadoLancamentos.addSerie(serieDebitos);		
+		List<Object[]> saldos = getSaldos(fim);
 		Serie serieSaldos = new Serie();
 		serieSaldos.setTitle("Saldos");
 		serieSaldos.setColor("green");
 		a: for( Date d: datas){
-			serieSaldos.addLabel(String.valueOf(formatLabel.format(d)));
-			 for(Object[] o: saldos){							
-				if(formatLabel.format(d).equals(o[0])){					
-					serieSaldos.addValor(o[1]);
-					continue a;
+			if(d.after(inicio)){
+				serieSaldos.addLabel(String.valueOf(formatLabel.format(d)));
+				 for(Object[] o: saldos){							
+					if(formatLabel.format(d).equals(o[0])){					
+						serieSaldos.addValor(o[1]);
+						continue a;
+					}
 				}
 			}
 			 serieSaldos.addValor("0");			
@@ -135,6 +142,15 @@ public class LancamentoServiceImpl implements LancamentoService {
 
 		
 		return chartResultadoLancamentos;
+	}
+
+	private List<Object[]> getSaldos(Date fim) {
+		EntityManager session = entityManagerFactory.createEntityManager();
+		StringBuilder query = new StringBuilder();
+		query.append(" select data, @saldo \\:= @saldo + entrada_saida from (SELECT @saldo \\:= 0) as vars, ").
+				append(" (select date_format(data, '%m-%Y') data, sum(if(L.TIPO_LANCAMENTO = 1, valor, valor*-1)) entrada_saida ").
+				append(" from LANCAMENTO L where  data between str_to_date('1900-01-01', '%Y-%m-%d') and :dtFim group by date_format(data, '%y-%m')) es ");
+		return session.createNativeQuery(query.toString()).setParameter("dtFim", fim).getResultList();
 	}
 
 

@@ -22,6 +22,7 @@ app.factory('LancamentoService',
                     .then(
                         function (response) {
                             $sessionStorage.lancamentos = response.data;
+                            console.log(response.data);
                             deferred.resolve(response);
                         },
                         function (errResponse) {
