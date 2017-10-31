@@ -31,6 +31,9 @@ public class CentroCusto {
     @Column(name="DATA_CADASTRO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro = new Date();
+    
+    @Column(name="IND_FIXO")
+    private Boolean fixo;
 
 	public Long getId() {
 		return id;
@@ -62,6 +65,14 @@ public class CentroCusto {
 
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public Boolean getFixo() {
+		return fixo;
+	}
+
+	public void setFixo(Boolean fixo) {
+		this.fixo = fixo;
 	}
 	
 	

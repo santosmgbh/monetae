@@ -16,12 +16,26 @@ app.controller('LancamentoController',
         	
         	
         	console.log("init lancamento");
-        	ng.loading(true);
+        	ng.carregando = true;
         	LancamentoService.loadAll().then(function(){
         		ng.getAll();	
-        		ng.loading(false);
+        		ng.carregando = false;
         		$timeout(function(){
-            		$('.dataTables-lancamento').DataTable();	
+            		$('.dataTables-lancamento').DataTable(
+            				{
+            					"searching": false,            					     			
+            					"language": {
+            			            "lengthMenu": "Mostrando _MENU_ registros por página",
+            			            "zeroRecords": "Nenhum registro",
+            			            "info": "Mostrando página _PAGE_ de _PAGES_",
+            			            "infoEmpty": "Nenhum registro",            			            
+        			            	"paginate": {
+        			            	     "next": "Próximo",
+    			            	    	 "previous": "Anterior"
+        			            	    }
+            			            		
+            			        }
+            				});	
             	}, 50)
         	}, function(error){
         		console.log(error);
@@ -67,7 +81,7 @@ app.controller('LancamentoController',
         
 
         ng.create = function create(obj) {
-        	ng.loading(true);
+        	ng.loading(true);        	        
             LancamentoService.create(obj)
                 .then(
                     function (response) {   

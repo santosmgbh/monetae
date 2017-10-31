@@ -36,42 +36,35 @@ public class LancamentoServiceImpl implements LancamentoService {
     private EntityManagerFactory entityManagerFactory;
 
 
-	@Override
+
 	public List<Lancamento> findAll() {
 		return lancamentoRepository.findAll();
 	}
 
-	@Override
 	public Lancamento findByDescricao(String descricao) {
 		return lancamentoRepository.findByDescricao(descricao);
 	}
 
-	@Override
 	public Lancamento findOne(long id) {
 		return lancamentoRepository.findOne(id);
 	}
 
-	@Override
 	public boolean exists(Long id) {
 		return lancamentoRepository.exists(id);
 	}
 
-	@Override
 	public void delete(long id) {
 		lancamentoRepository.delete(id);
 	}
 
-	@Override
 	public void save(Lancamento obj) {
 		lancamentoRepository.save(obj);
 	}
 
-	@Override
 	public void deleteAll() {
 		lancamentoRepository.deleteAll();
 	}
 
-	@Override
 	public Chart getLineChartLancamentos(Date inicio, Date fim) {
 		Chart chartResultadoLancamentos = new Chart();
 		chartResultadoLancamentos.setLabel("Resultado dos lançamentos");
@@ -82,7 +75,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 		Calendar dtFim = Calendar.getInstance();
 		dtFim.setTime(fim);
 		List<Date> datas = new ArrayList<Date>();
-		while(dtInicio.get(Calendar.MONTH) != dtFim.get(Calendar.MONTH)){
+		while(dtInicio.before(dtFim)){
 			dtInicio.add(Calendar.MONTH, 1);	
 			seriesLabel.add(formatLabel.format(dtInicio.getTime()));
 			datas.add(dtInicio.getTime());

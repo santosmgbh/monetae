@@ -37,17 +37,10 @@
 								<label class="col-sm-2 control-label">Data</label>
 								<div class="col-sm-10">
 									<div id="date-popup" class="input-group date">
-										<input type="text" id="data" ng-model="obj.data" data-format="D, dd MM yyyy"
+										<input type="text" id="data" ng-model="obj.data" 
 											class="form-control"> <span class="input-group-addon"><i
 											class="fa fa-calendar"></i></span>
 									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label">Parcelas</label>
-								<div class="col-sm-10">
-									<input type="number" placeholder="Parcelas"
-										ng-model="obj.parcelas" class="form-control">
 								</div>
 							</div>
 							<div class="form-group">
@@ -76,7 +69,8 @@
 										ng-model="obj.fluxo">
 									</select>
 								</div>
-							</div>
+							</div>													
+														
 
 
 							<button type="submit" ng-click="cancel()" class="btn btn-white">Cancelar</button>
@@ -95,22 +89,19 @@
 		$('#datepicker').datepicker({
 			keyboardNavigation : false,
 			forceParse : false,
-			todayHighlight : true,
-			format : "dd/mm/yyyy"
+			todayHighlight : true
 		});
 
 		$('#date-popup').datepicker({
 			keyboardNavigation : false,
 			forceParse : false,
-			todayHighlight : true,
-			format : "dd/mm/yyyy"
+			todayHighlight : true
 		});
 
 		$('#year-view').datepicker({
 			startView : 2,
 			keyboardNavigation : false,
-			forceParse : false,
-			format : "dd/mm/yyyy"
+			forceParse : false
 		});
 		$("#valor").maskMoney({
 			thousands : '',

@@ -10,7 +10,8 @@ app.factory('EstatisticaService',
 
             return factory;
 
-            function getLineChartLancamentos(dtIni, dtFim, result, error) {                
+            function getLineChartLancamentos(dtIni, dtFim, result, error) {
+            	
                 $http.get(urls.ESTATISCA_SERVICE_API+"getLineChartLancamentos",
         		{
                     params: { dtIni: dtIni, dtFim: dtFim }

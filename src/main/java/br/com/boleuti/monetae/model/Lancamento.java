@@ -30,15 +30,13 @@ public class Lancamento {
       @ManyToOne(cascade = CascadeType.ALL)
       @JoinColumn(name="TIPO_LANCAMENTO")
       private TipoLancamento tipoLancamento;
-      
+            
       @Column(name="DATA", nullable=true)
+      @Temporal(value = TemporalType.DATE)
       private Date data;
       
       @Column(name="VALOR", nullable=false)
-      private Double valor;
-      
-      @Column(name="PARCELAS", nullable=false)
-      private Integer parcelas;
+      private Double valor;           
       
       @ManyToOne(cascade = CascadeType.ALL)
       @JoinColumn(name="ID_CENTRO_CUSTO")
@@ -48,13 +46,14 @@ public class Lancamento {
       @JoinColumn(name="ID_FLUXO")
       private Fluxo fluxo;
       
-      @ManyToOne(cascade = CascadeType.ALL)
+      @ManyToOne
       @JoinColumn(name="ID_USER", nullable=false)
       private User user;
       
       @Column(name="DATA_CADASTRO")
       @Temporal(TemporalType.TIMESTAMP)
       private Date dataCadastro = new Date();
+      
  
 
 	public Long getId() {
@@ -121,14 +120,6 @@ public class Lancamento {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public Integer getParcelas() {
-		return parcelas;
-	}
-
-	public void setParcelas(Integer parcelas) {
-		this.parcelas = parcelas;
-	}
-
 	public TipoLancamento getTipoLancamento() {
 		return tipoLancamento;
 	}
@@ -136,9 +127,6 @@ public class Lancamento {
 	public void setTipoLancamento(TipoLancamento tipoLancamento) {
 		this.tipoLancamento = tipoLancamento;
 	}
-	
-	
-
 	
 
 }

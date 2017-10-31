@@ -87,7 +87,8 @@ public class CentroCustoController {
 						HttpStatus.NOT_FOUND);
 			}
 			obj.setUser(userService.getUsuarioLogado());
-			obj.setNome(user.getNome());							
+			obj.setNome(user.getNome());
+			obj.setFixo(user.getFixo());
 
 			centroCustoService.save(obj);
 			return new ResponseEntity<CentroCusto>(obj, HttpStatus.OK);

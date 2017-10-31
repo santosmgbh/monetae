@@ -55,8 +55,7 @@ public class UserServiceImpl implements UserService{
 	private User findByLogin(String login) {
 		return userRepository.findByLogin(login);
 	}
-
-	@Override
+	
 	public User getUsuarioLogado() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		org.springframework.security.core.userdetails.User userLogged = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();

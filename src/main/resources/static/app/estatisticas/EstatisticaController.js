@@ -8,14 +8,20 @@ app.controller('EstatisticaController',
         
         ng.init = function(){   
         	console.log("start");
-        	ng.startLineChart();
+        	ng.dataIni = new Date(Date.parse('2017-01'));
+        	ng.dataFim = new Date(Date.parse('2017-12'));        	
+        	ng.loadLineChart();
         }
         
-        ng.startLineChart = function(){        
+        ng.loadLineChart = function(){        
         	var ctx = document.getElementById('lineChartLancamentos').getContext('2d');
         	var labelSeries = [];
-        	var dataSets = [];
-        	EstatisticaService.getLineChartLancamentos(Date.parse('2017-01'), Date.parse('2017-12'), function(result){   
+        	var dataSets = [];        	                	        	
+        	
+        	var dataIni = Date.parse(ng.dataIni);
+        	var dataFim =  Date.parse(ng.dataFim);        	        	
+        	
+        	EstatisticaService.getLineChartLancamentos(dataIni, dataFim, function(result){   
         		console.log(result);
         		var labels = result.seriesLabel;
         		var series = result.series;
@@ -61,8 +67,17 @@ app.controller('EstatisticaController',
         	});        	
         }
         
+        ng.formatDate = function(date){
+        	var d = date.getDate();
+        	var m =  date.getMonth();
+        	m += 1;  // JavaScript months are 0-11
+        	var y = date.getFullYear();
+        	return m+'-'+d+'-'+y
+        }
+        
         ng.init();
-    }
+               
+    }       
 
 
     ]);

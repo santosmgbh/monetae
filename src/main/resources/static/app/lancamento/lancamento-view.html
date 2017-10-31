@@ -1,5 +1,5 @@
 <div id="view-content">
-<link href="css/plugins/datatables/jquery.dataTables.css" rel="stylesheet">
+
 	<div ng-show="isEdicao">
 		<div ng-include="'app/lancamento/lancamento-cadastro.html'"></div>
 	</div>
@@ -9,11 +9,11 @@
 		<div class="header-secondary row gray-bg">
 			<div class="col-lg-12">
 				<div class="page-heading clearfix">
-					<h1 class="page-title pull-left">LanÃ§amento</h1>
+					<h1 class="page-title pull-left">Lançamento</h1>
 					<button class="btn btn-primary btn-sm btn-add"
 						ng-click="setEdicao(true); reset()">Novo</button>
 					<button class="btn btn-primary btn-sm btn-add"
-						ng-click="importarLancamentos()">Importar lanÃ§amentos</button>
+						ng-click="importarLancamentos()">Importar lançamentos</button>
 				</div>
 			</div>
 		</div>
@@ -23,10 +23,6 @@
 		<div class="row filter-wrapper visible-box" id="filter-box">
 			<div class="col-lg-12">
 				<div class="filter-header">
-					<button aria-label="Close" class="close toggle-filter"
-						type="button" data-block-id="filter-box">
-						<i class="icon-cancel"></i>
-					</button>
 					<h3 class="title">Filtrar</h3>
 				</div>
 				<form class="form-inline">
@@ -35,6 +31,22 @@
 							placeholder="Digite um nome" ng-model="searchText"
 							class="form-control">
 					</div>
+					<div class="form-group">
+						<label class="form-label">Centro de custo</label> <select
+							class="form-control"
+							ng-options="item as item.nome for item in centrosCustos"
+							ng-model="searchCentroCusto">
+							<option value="">Todos</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="form-label">Tipo de lançamento</label> <select
+							class="form-control"
+							ng-options="item as item.nome for item in tiposLancamento"
+							ng-model="searchTipoLancamento">
+							<option value="">Todos</option>
+						</select>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -42,68 +54,55 @@
 
 		<!-- Main content -->
 		<div>
-			<div class="row datatable-wrapper form-inline">
-				<div class="col-lg-12">
-					<div class="data-col-last clearfix">
-						<div class="col-selectbox">
-							<select ng-model="quantity" class="form-control input-sm">
-								<option value="25">25 Registros</option>
-								<option value="10">10 Registros</option>
-								<option value="50">50 Registros</option>
-							</select>
-						</div>
-					</div>
+
+			<div ng-show="carregando" style="width: 100%; background-color: #fff; text-align:center">
+				<img alt="Loading" src="images/indeterminate_progress.gif"
+							/>	
 				</div>
-			</div>
-			<div class="table-responsive">
-				<table class="table table-striped table-bordered table-hover dataTables-lancamento">
-					<thead>
-						<tr>							
-							<th>Nome</th>
-							<th>Valor</th>							
-							<th>Data</th>
-							<th>Centro de custo</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="c in lista | filter:searchText | orderBy:'dataCadastro':true "
-							ng-click="edit(c)">							
-							<td><strong>{{c.descricao}}</strong></td>
-							
-							<td>							
-								<strong ng-if="c.tipoLancamento.nome == 'RECEBIMENTO'">
-										<p class="text-success">{{c.valor}}</p>								
-								</strong> 
-								<strong ng-if="c.tipoLancamento.nome == 'PAGAMENTO'"> 
-									<p class="text-danger">{{c.valor}}</p> 
-								</strong>
-							</td>
-							
-							<td>
-								{{c.data | date:'dd/MM/yyyy' }}
-							</td>
-							
-							<td>{{c.centroCusto.nome}}</td>
-							
-						</tr>
-					</tbody>
-				</table>
-			</div>
+				<div class="table-responsive" ng-show="!carregando">
+					<table
+						class="table table-striped table-bordered table-hover dataTables-lancamento">
+						<thead>
+							<tr>
+								<th>Nome</th>
+								<th>Valor</th>
+								<th>Data</th>
+								<th>Centro de custo</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								ng-repeat="c in lista | filter:searchText | filter:searchCentroCusto.nome| filter: searchTipoLancamento.nome| orderBy:'dataCadastro':true "
+								ng-click="edit(c)">
+								<td><strong>{{c.descricao}}</strong></td>
 
-			<!-- Footer -->
-			<footer class="footer-main">
-				&copy; 2016 <strong>Mouldifi</strong> Admin Theme by <a
-					target="_blank" href="#/">G-axon</a>
-			</footer>
-			<!-- /footer -->
+								<td><strong ng-if="c.tipoLancamento.nome == 'RECEBIMENTO'">
+										<p class="text-success">{{c.valor}}</p>
+								</strong> <strong ng-if="c.tipoLancamento.nome == 'PAGAMENTO'">
+										<p class="text-danger">{{c.valor}}</p>
+								</strong></td>
 
+								<td>{{c.data | date:'dd/MM/yyyy' }}</td>
+
+								<td>{{c.centroCusto.nome}}</td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<!-- Footer -->
+				<footer class="footer-main">
+					&copy; 2016 <strong>Mouldifi</strong> Admin Theme by <a
+						target="_blank" href="#/">G-axon</a>
+				</footer>
+				<!-- /footer -->
+
+			</div>
+			<!-- /main content -->
+
+
+			<!-- /page container -->
 		</div>
-		<!-- /main content -->
 
-
-		<!-- /page container -->
 	</div>
-
-</div>
-<script src="js/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="js/plugins/datatables/dataTables.bootstrap.min.js"></script>

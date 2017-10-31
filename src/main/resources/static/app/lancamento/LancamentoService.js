@@ -80,7 +80,7 @@ app.factory('LancamentoService',
                 $http.post(urls.LANCAMENTO_SERVICE_API, obj)
                     .then(
                         function (response) {                
-                        	loadAll();
+                        	$sessionStorage.lancamentos.push(response.data);
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {                           
